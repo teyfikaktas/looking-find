@@ -37,7 +37,7 @@ class JobSeeder extends Seeder
                     'country' => $user->country,
                     'city' => $user->city,
                     'town' => $turkishTowns[array_rand($turkishTowns)], // Rastgele Türkçe town değeri
-                    'working_preference' => ['remote', 'on-site', 'hybrid'],
+                    'working_preference' => 'remote' // JSON formatına dönüştürüldü
                 ]);
             }
         }
