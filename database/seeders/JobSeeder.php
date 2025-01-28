@@ -13,6 +13,15 @@ class JobSeeder extends Seeder
      */
     public function run(): void
     {
+        // Rastgele Türkçe değerler için diziler
+        $turkishCompanies = ['Arçelik', 'Vestel', 'Turkcell', 'THY', 'Koç Holding', 'Sabancı Holding'];
+        $turkishDescriptions = [
+            'Yenilikçi projeler üzerinde çalışıyoruz.',
+            'Müşteri memnuniyeti odaklı bir şirketiz.',
+            'Teknoloji ve inovasyon alanında lideriz.',
+            'Global pazarda rekabetçi çözümler sunuyoruz.',
+        ];
+        $turkishTowns = ['Merkez', 'Köy', 'Kasaba', 'Mahalle', 'Semt'];
 
         // Kullanıcıları al
         $users = User::all();
@@ -22,12 +31,12 @@ class JobSeeder extends Seeder
             for ($i = 0; $i < 5; $i++) {
                 Job::create([
                     'user_id' => $user->id,
-                    'position' => $faker->jobTitle,
-                    'company' => $faker->company,
-                    'description' => $faker->paragraph(4),
+                    'position' => 'Yazılım Geliştirici', // Örnek pozisyon
+                    'company' => $turkishCompanies[array_rand($turkishCompanies)], // Rastgele Türkçe şirket adı
+                    'description' => $turkishDescriptions[array_rand($turkishDescriptions)], // Rastgele Türkçe açıklama
                     'country' => $user->country,
                     'city' => $user->city,
-                    'town' => $faker->citySuffix,
+                    'town' => $turkishTowns[array_rand($turkishTowns)], // Rastgele Türkçe town değeri
                     'working_preference' => ['remote', 'on-site', 'hybrid'],
                 ]);
             }
