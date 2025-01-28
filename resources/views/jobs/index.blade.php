@@ -12,17 +12,16 @@
             <form method="GET" action="{{ route('home') }}" class="mb-4">
                 <div class="row">
                     <div class="col-md-5">
-                        <input type="text" name="position" class="form-control" placeholder="{{ __('Pozisyon, Şirket') }}" value="{{ request('position') }}">
+                        <input type="text" name="position" id="position-autocomplete" class="form-control" placeholder="{{ __('Pozisyon, Şirket') }}" value="{{ request('position') }}">
                     </div>
                     <div class="col-md-5">
-                        <input type="text" name="city" class="form-control" placeholder="{{ __('Şehir veya İlçe') }}" value="{{ request('city') }}">
+                        <input type="text" name="city" id="city-autocomplete" class="form-control" placeholder="{{ __('Şehir veya İlçe') }}" value="{{ request('city') }}">
                     </div>
                     <div class="col-md-2">
-    <button type="submit" class="btn search-btn">
-        <i class="fas fa-search"></i> {{ __('İş Bul') }}
-    </button>
-</div>
-
+                        <button type="submit" class="btn search-btn">
+                            <i class="fas fa-search"></i> {{ __('İş Bul') }}
+                        </button>
+                    </div>
                 </div>
             </form>
 
@@ -63,4 +62,41 @@
         @endif
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        // Pozisyon autocomplete
+        $('#position-autocomplete').autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "{{ route('autocomplete.positions') }}",
+                    data: { term: request.term },
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.length === 0) {
+                            response([{ label: "Pozisyonlarda ara...", value: "" }]); // İlk satırda sabit mesaj göster
+                        } else {
+                            response(data);
+                        }
+                    }
+                });
+            },
+            minLength: 2,
+            select: function(event, ui) {
+                if (ui.item.value === "") {
+                    event.preventDefault(); // Eğer tıklarsa, seçim olmasın
+                }
+            }
+        });
+
+        // Şehir autocomplete
+        $('#city-autocomplete').autocomplete({
+            source: "{{ route('autocomplete.cities') }}",
+            minLength: 2,
+        });
+    });
+</script>
+
 @endsection
