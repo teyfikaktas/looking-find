@@ -1,26 +1,26 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Redirect;
 
 class LanguageController extends Controller
 {
-    /**
-     * Kullanıcının seçtiği dili session'a kaydeder ve uygular.
-     *
-     * @param string $lang
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function switchLanguage($lang)
     {
-        if (in_array($lang, ['en', 'tr'])) {
-            Session::put('locale', $lang);
-            App::setLocale($lang);
+        // Geçerli dilleri kontrol et
+        if (!in_array($lang, ['en', 'tr'])) {
+            return redirect()->back();
         }
-        return Redirect::back();
+
+        // Session'a dili kaydet
+        Session::put('locale', $lang);
+        
+        // Uygulamanın dilini değiştir
+        App::setLocale($lang);
+        
+        // Cookie'ye de kaydet (opsiyonel)
+        return redirect()->back()->withCookie(cookie()->forever('locale', $lang));
     }
 }
