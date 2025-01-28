@@ -6,7 +6,6 @@ use Illuminate\Database\Seeder;
 use App\Models\Application;
 use App\Models\User;
 use App\Models\Job;
-use Faker\Factory as Faker;
 
 class ApplicationSeeder extends Seeder
 {
@@ -15,7 +14,6 @@ class ApplicationSeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = Faker::create('tr_TR'); // Türkçe veriler için
 
         // Kullanıcıları ve iş ilanlarını al
         $users = User::all();
@@ -38,7 +36,7 @@ class ApplicationSeeder extends Seeder
                     Application::create([
                         'user_id' => $user->id,
                         'job_id' => $job->id,
-                        'cover_letter' => $faker->paragraph(2),
+                        'cover_letter' => 'CV',
                     ]);
                 }
             }
