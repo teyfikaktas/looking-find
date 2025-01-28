@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 class LanguageController extends Controller
 {
     /**
-     * Uygulamanın dilini değiştirir.
+     * Kullanıcının seçtiği dili session'a kaydeder ve uygular.
      *
      * @param string $lang
      * @return \Illuminate\Http\RedirectResponse

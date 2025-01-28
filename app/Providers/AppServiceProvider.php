@@ -2,22 +2,27 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Bootstrap application services.
      */
-    public function register(): void
+    public function boot()
     {
-        //
+        // Eğer session'da bir dil seçildiyse bunu uygula
+        if (Session::has('locale')) {
+            App::setLocale(Session::get('locale'));
+        }
     }
 
     /**
-     * Bootstrap any application services.
+     * Register application services.
      */
-    public function boot(): void
+    public function register()
     {
         //
     }
