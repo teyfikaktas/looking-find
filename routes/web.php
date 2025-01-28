@@ -45,7 +45,6 @@ Route::post('/jobs/{id}/apply', [ApplicationController::class, 'apply'])->middle
 Route::get('/search/results', [SearchController::class, 'results'])->name('search.results');
 
 // LanguageController Rotası
-Route::get('/language/{locale}', [LanguageController::class, 'switch'])->name('language.switch');
 
 // Auth rotaları Laravel Breeze tarafından sağlanır
 require __DIR__.'/auth.php';
