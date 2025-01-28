@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Job;
 use App\Models\User;
-use Faker\Factory as Faker;
 
 class JobSeeder extends Seeder
 {
@@ -14,7 +13,6 @@ class JobSeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = Faker::create('tr_TR'); // Türkçe veriler için
 
         // Kullanıcıları al
         $users = User::all();
