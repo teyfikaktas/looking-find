@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Job extends Model
 {
     use HasFactory;
+    protected $table = 'jobsP';
 
     /**
      * Toplu atamaya izin verilen alanlar.
