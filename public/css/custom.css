@@ -1,0 +1,24 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.btn-primary {
+    background-color: #6a0dad;
+    border-color: #6a0dad;
+}
+
+.btn-primary:hover {
+    background-color: #580a9e;
+    border-color: #580a9e;
+}
+
+.btn-outline-secondary {
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 14px;
+}
+
+img.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
