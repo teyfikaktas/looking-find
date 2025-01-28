@@ -22,24 +22,30 @@ img.img-fluid {
     max-width: 100%;
     height: auto;
 }
+/* "İş Bul" Butonu Stil Güncellemesi */
 .search-btn {
-    background-color: #6a0dad; /* Mor Renk */
-    border-color: #6a0dad;
+    background-color: #6a0dad !important; /* Mor arka plan */
+    border-color: #6a0dad !important;
     font-size: 18px;
     font-weight: bold;
-    padding: 10px 25px;
-    border-radius: 50px; /* Yuvarlak Buton */
+    padding: 12px 30px;
+    border-radius: 50px; /* Yuvarlak buton */
+    color: #ffffff !important; /* Beyaz yazı rengi */
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    transition: background-color 0.3s ease-in-out;
 }
 
+/* Buton üzerine gelince */
+.search-btn:hover {
+    background-color: #580a9e !important; /* Daha koyu mor */
+    border-color: #580a9e !important;
+    color: #ffffff !important;
+}
+
+/* Buton içindeki ikon */
 .search-btn i {
     font-size: 20px;
-}
-
-.search-btn:hover {
-    background-color: #580a9e;
-    border-color: #580a9e;
 }

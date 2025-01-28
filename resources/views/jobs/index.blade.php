@@ -18,7 +18,7 @@
                         <input type="text" name="city" class="form-control" placeholder="{{ __('Şehir veya İlçe') }}" value="{{ request('city') }}">
                     </div>
                     <div class="col-md-2">
-    <button type="submit" class="btn btn-primary search-btn">
+    <button type="submit" class="btn search-btn">
         <i class="fas fa-search"></i> {{ __('İş Bul') }}
     </button>
 </div>
