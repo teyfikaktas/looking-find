@@ -1,13 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-
 <div class="container">
     <div class="row align-items-center mt-5">
         <!-- Sol Taraf: Arama Kutusu + Popüler Aramalar -->
         <div class="col-md-8">
-            <h1 class="fw-bold">Kariyer Fırsatlarını Keşfet</h1>
-            <p class="fs-5"><strong>71.293</strong> iş ilanı on binlerce şirket</p>
+            <h1 class="fw-bold">{{ __('Kariyer Fırsatlarını Keşfet') }}</h1>
+            <p class="fs-5"><strong>71.293</strong> {{ __('iş ilanı on binlerce şirket') }}</p>
 
             <!-- Arama Formu -->
             <form method="GET" action="{{ route('home') }}" class="mb-4">
@@ -28,15 +27,15 @@
 
             <!-- Popüler Aramalar -->
             <div class="d-flex flex-wrap">
-                <a href="#" class="btn btn-outline-secondary m-1">Finans Uzmanı</a>
-                <a href="#" class="btn btn-outline-secondary m-1">Dijital Pazarlama Uzmanı</a>
-                <a href="#" class="btn btn-outline-secondary m-1">Yazılım Geliştirme Uzmanı</a>
-                <a href="#" class="btn btn-outline-secondary m-1">Proje Yöneticisi</a>
-                <a href="#" class="btn btn-outline-secondary m-1">İK Uzmanı</a>
-                <a href="#" class="btn btn-outline-secondary m-1">İstanbul</a>
-                <a href="#" class="btn btn-outline-secondary m-1">Ankara</a>
-                <a href="#" class="btn btn-outline-secondary m-1">İzmir</a>
-                <a href="#" class="btn btn-outline-secondary m-1">Bursa</a>
+                <a href="#" class="btn btn-outline-secondary m-1">{{ __('Finans Uzmanı') }}</a>
+                <a href="#" class="btn btn-outline-secondary m-1">{{ __('Dijital Pazarlama Uzmanı') }}</a>
+                <a href="#" class="btn btn-outline-secondary m-1">{{ __('Yazılım Geliştirme Uzmanı') }}</a>
+                <a href="#" class="btn btn-outline-secondary m-1">{{ __('Proje Yöneticisi') }}</a>
+                <a href="#" class="btn btn-outline-secondary m-1">{{ __('İK Uzmanı') }}</a>
+                <a href="#" class="btn btn-outline-secondary m-1">{{ __('İstanbul') }}</a>
+                <a href="#" class="btn btn-outline-secondary m-1">{{ __('Ankara') }}</a>
+                <a href="#" class="btn btn-outline-secondary m-1">{{ __('İzmir') }}</a>
+                <a href="#" class="btn btn-outline-secondary m-1">{{ __('Bursa') }}</a>
             </div>
         </div>
 
@@ -48,7 +47,7 @@
 
     <!-- Öne Çıkan İlanlar -->
     <div class="mt-5">
-        <h2 class="fw-bold">Öne Çıkan İlanlar</h2>
+        <h2 class="fw-bold">{{ __('Öne Çıkan İlanlar') }}</h2>
         <div class="row">
             @if($jobs->count())
                 @foreach($jobs as $job)
@@ -72,8 +71,8 @@
         </div>
     </div>
 </div>
-
 @endsection
+
 
 @section('scripts')
 <script>

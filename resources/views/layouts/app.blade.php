@@ -17,7 +17,7 @@
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -41,9 +41,6 @@
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" 
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }}
-                            @if(Auth::user()->photo)
-                                <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="User Photo" class="rounded-circle" width="30" height="30">
-                            @endif
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{{ route('profile.edit') }}">{{ __('Profil') }}</a></li>
@@ -60,10 +57,27 @@
                         </ul>
                     </li>
                 @endguest
+
+                <!-- Dil Değiştirme -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" 
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        @if(app()->getLocale() == 'tr')
+                            🇹🇷 Türkçe
+                        @else
+                            🇬🇧 English
+                        @endif
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                        <li><a class="dropdown-item" href="{{ route('language.switch', 'en') }}">🇬🇧 English</a></li>
+                        <li><a class="dropdown-item" href="{{ route('language.switch', 'tr') }}">🇹🇷 Türkçe</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
+
 
 
     <main class="py-4">
