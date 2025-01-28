@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('jobs', function (Blueprint $table) {
+        Schema::create('jobsP', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id'); // İş ilanını oluşturan kullanıcı (işveren)
             $table->string('position');
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jobs');
+        Schema::dropIfExists('jobsP');
     }
 };
