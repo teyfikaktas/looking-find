@@ -22,3 +22,24 @@ img.img-fluid {
     max-width: 100%;
     height: auto;
 }
+.search-btn {
+    background-color: #6a0dad; /* Mor Renk */
+    border-color: #6a0dad;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 25px;
+    border-radius: 50px; /* Yuvarlak Buton */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.search-btn i {
+    font-size: 20px;
+}
+
+.search-btn:hover {
+    background-color: #580a9e;
+    border-color: #580a9e;
+}
