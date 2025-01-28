@@ -42,4 +42,15 @@ class Job extends Model
     {
         return $this->hasMany(Application::class);
     }
+    public function randomImage()
+    {
+        $images = [
+            'https://source.unsplash.com/300x200/?business',
+            'https://source.unsplash.com/300x200/?office',
+            'https://source.unsplash.com/300x200/?corporate',
+            'https://source.unsplash.com/300x200/?career',
+            'https://source.unsplash.com/300x200/?company',
+        ];
+        return $images[array_rand($images)];
+    }
 }

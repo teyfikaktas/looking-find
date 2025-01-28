@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row align-items-center mt-5">
         <!-- Sol Taraf: Arama Kutusu + Popüler Aramalar -->
@@ -45,23 +46,33 @@
         </div>
     </div>
 
-    <!-- İş İlanları Listesi -->
+    <!-- Öne Çıkan İlanlar -->
     <div class="mt-5">
-        @if($jobs->count())
-            @foreach($jobs as $job)
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $job->position }} - {{ $job->company }}</h5>
-                        <p class="card-text">{{ Str::limit($job->description, 100) }}</p>
-                        <a href="{{ route('jobs.show', $job->id) }}" class="btn btn-primary">{{ __('View Details') }}</a>
+        <h2 class="fw-bold">Öne Çıkan İlanlar</h2>
+        <div class="row">
+            @if($jobs->count())
+                @foreach($jobs as $job)
+                    <div class="col-md-3">
+                        <div class="card job-card">
+                            <!-- Rastgele Resim -->
+                            <img src="{{ $job->randomImage() }}" class="card-img-top job-img" alt="{{ $job->company }}">
+                            
+                            <div class="card-body text-center">
+                                <h5 class="card-title">{{ $job->position }}</h5>
+                                <p class="card-text fw-bold">{{ $job->company }}</p>
+                                <p class="text-muted">{{ $job->city }} @if($job->town), {{ $job->town }} @endif</p>
+                                <a href="{{ route('jobs.show', $job->id) }}" class="btn btn-outline-primary w-100">{{ __('Detayları Gör') }}</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            @endforeach
-        @else
-            <p>{{ __('No job postings available.') }}</p>
-        @endif
+                @endforeach
+            @else
+                <p>{{ __('No job postings available.') }}</p>
+            @endif
+        </div>
     </div>
 </div>
+
 @endsection
 
 @section('scripts')

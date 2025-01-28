@@ -49,3 +49,42 @@ img.img-fluid {
 .search-btn i {
     font-size: 20px;
 }
+/* Öne Çıkan İş İlanları Kartları */
+.job-card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+}
+
+/* İş İlanı Resimleri */
+.job-img {
+    height: 150px;
+    object-fit: cover;
+}
+
+/* İş Bul Butonu */
+.search-btn {
+    background-color: #6a0dad !important;
+    border-color: #6a0dad !important;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 30px;
+    border-radius: 50px;
+    color: #ffffff !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.search-btn:hover {
+    background-color: #580a9e !important;
+    border-color: #580a9e !important;
+    color: #ffffff !important;
+}
