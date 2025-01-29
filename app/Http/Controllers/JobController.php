@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Job;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Application;
 
 class JobController extends Controller
 {
@@ -95,17 +96,57 @@ class JobController extends Controller
      */
     public function show($id)
     {
-        $job = Job::with('applications')->findOrFail($id);
+        $job = Job::findOrFail($id);
+        
+        // İlgili ilanları getir (aynı departman veya şehirdeki diğer ilanlar)
+        $relatedJobs = Job::where('id', '!=', $id)
+            ->where(function($query) use ($job) {
+                $query->where('department', $job->department)
+                      ->orWhere('city', $job->city);
+            })
+            ->inRandomOrder()
+            ->limit(3)
+            ->get();
 
-        // İlgili iş ilanlarını getir
-        $relatedJobs = Job::where('city', $job->city)
-                         ->where('id', '!=', $job->id)
-                         ->take(3)
-                         ->get();
+        // Rastgele başvuru sayısı ata
+        $job->application_count = rand(1, 500);
+        
+        // Kullanıcı başvurmuş mu kontrol et
+        $hasApplied = false;
+        if (Auth::check()) {
+            $hasApplied = Application::where('job_id', $id)
+                                   ->where('user_id', Auth::id())
+                                   ->exists();
+        }
 
-        return view('jobs.show', compact('job', 'relatedJobs'));
+        return view('jobs.show', compact('job', 'relatedJobs', 'hasApplied'));
     }
 
+    public function apply($id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('warning', 'Başvuru yapabilmek için giriş yapmalısınız.');
+        }
+
+        $job = Job::findOrFail($id);
+        
+        // Daha önce başvurulmuş mu kontrol et
+        $existingApplication = Application::where('job_id', $id)
+                                        ->where('user_id', Auth::id())
+                                        ->first();
+
+        if ($existingApplication) {
+            return back()->with('info', 'Bu ilana zaten başvurdunuz.');
+        }
+
+        // Yeni başvuru oluştur
+        Application::create([
+            'job_id' => $id,
+            'user_id' => Auth::id(),
+        ]);
+
+        return back()->with('success', 'Başvurunuz başarıyla alındı.');
+    }
     /**
      * Show the form for editing the specified job posting.
      */
