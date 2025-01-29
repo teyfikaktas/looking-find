@@ -7,9 +7,8 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Bootstrap -->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -26,32 +25,55 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+    <!-- Custom CSS -->
+    <style>
+        .search-btn {
+            background-color: #0d6efd;
+            color: white;
+            padding: 0.5rem 1rem;
+        }
+        .search-btn:hover {
+            background-color: #0b5ed7;
+            color: white;
+        }
+        .navbar-custom {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,.08);
+        }
+    </style>
+
     @yield('styles')
 </head>
-<body>
-    <div class="min-h-screen bg-white">
-        @if (Route::has('login'))
-            <div class="p-6 text-right">
-                @auth
-                    <a href="{{ url('/dashboard') }}" class="btn btn-outline-primary">Dashboard</a>
-                @else
-                    <a href="{{ route('login') }}" class="btn btn-outline-primary">Log in</a>
-
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="btn btn-primary ml-2">Register</a>
-                    @endif
-                @endauth
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url('/') }}">
+                <img src="{{ asset('images/left-logo.png') }}" alt="Logo" height="40">
+            </a>
+            
+            <div class="ms-auto">
+                @if (Route::has('login'))
+                    @auth
+                        <a href="{{ url('/dashboard') }}" class="btn btn-outline-primary">Dashboard</a>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-outline-primary">Giriş Yap</a>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="btn btn-primary ms-2">Kayıt Ol</a>
+                        @endif
+                    @endauth
+                @endif
             </div>
-        @endif
+        </div>
+    </nav>
 
-        <!-- Page Content -->
-        <main>
-            @yield('content')
-        </main>
-    </div>
+    <!-- Main Content -->
+    <main>
+        @yield('content')
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
     @yield('scripts')
 </body>
