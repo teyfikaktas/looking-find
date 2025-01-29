@@ -14,12 +14,15 @@ class Auth0Controller extends Controller
     public function login()
     {
         $auth0 = app('auth0');
+        $state = Str::random(40);
         
         return redirect(
             $auth0->getSdk()->authentication()->getLoginLink(
+                $state,
                 config('auth0.redirectUri'),
                 [
                     'scope' => 'openid profile email',
+                    'response_type' => 'code',
                 ]
             )
         );
