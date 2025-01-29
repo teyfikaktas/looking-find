@@ -28,7 +28,7 @@
                                value="{{ request('city') }}">
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary search-btn w-100">
+                        <button type="submit" class="btn search-btn w-100">
                             <i class="fas fa-search"></i> <span data-translate="find_job">İş Bul</span>
                         </button>
                     </div>
@@ -68,16 +68,13 @@
                     <div class="jobs-track">
                         @if($jobs->count())
                             @foreach($jobs as $job)
-                                <div class="job-card">
+                                <div class="job-card" onclick="window.location.href='{{ route('jobs.show', $job->id) }}'">
                                     <div class="card h-100">
                                         <img src="{{ $job->randomImage() }}" class="card-img-top job-img" alt="{{ $job->company }}">
                                         <div class="card-body text-center d-flex flex-column">
-                                            <h5 class="card-title mb-3">{{ $job->position }}</h5>
-                                            <p class="card-text fw-bold mb-2">{{ $job->company }}</p>
-                                            <p class="text-muted mb-3">{{ $job->city }} @if($job->town), {{ $job->town }} @endif</p>
-                                            <a href="{{ route('jobs.show', $job->id) }}" class="btn btn-outline-primary mt-auto">
-                                                <span data-translate="view_details">Detayları Gör</span>
-                                            </a>
+                                            <h5 class="card-title">{{ $job->position }}</h5>
+                                            <p class="company-name mb-2">{{ $job->company }}</p>
+                                            <p class="location mb-0">{{ $job->city }} @if($job->town), {{ $job->town }} @endif</p>
                                         </div>
                                     </div>
                                 </div>
@@ -98,79 +95,178 @@
 
 @section('styles')
 <style>
-.featured-jobs-slider {
-    position: relative;
-    margin: 20px 0;
-}
-
-.slider-container {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.jobs-wrapper {
-    overflow: hidden;
-    width: 100%;
-}
-
-.jobs-track {
-    display: flex;
-    transition: transform 0.3s ease-in-out;
-}
-
-.job-card {
-    flex: 0 0 25%;
-    padding: 0 10px;
-    box-sizing: border-box;
-}
-
-.job-img {
-    height: 200px;
-    object-fit: cover;
-}
-
-.slider-nav {
-    background: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-}
-
-.slider-nav:hover:not(:disabled) {
-    background: #e9ecef;
-    border-color: #ced4da;
-}
-
-.slider-nav:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* Responsive ayarlamalar */
-@media (max-width: 992px) {
-    .job-card {
-        flex: 0 0 33.333%;
+    :root {
+        --primary-purple: #6934FF;
+        --primary-purple-hover: #5729D9;
+        --secondary-purple: #8B5CF6;
+        --light-purple: #EDE9FE;
     }
-}
 
-@media (max-width: 768px) {
-    .job-card {
-        flex: 0 0 50%;
+    /* Ana Başlık Stilleri */
+    h1 {
+        color: #1F2937;
     }
-}
 
-@media (max-width: 576px) {
-    .job-card {
-        flex: 0 0 100%;
+    /* Arama butonu */
+    .search-btn {
+        background-color: var(--primary-purple);
+        border-color: var(--primary-purple);
+        color: white;
+        border-radius: 8px;
+        padding: 0.625rem 1rem;
+        transition: all 0.3s ease;
     }
-}
+
+    .search-btn:hover {
+        background-color: var(--primary-purple-hover);
+        border-color: var(--primary-purple-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(105, 52, 255, 0.2);
+    }
+
+    /* Popüler aramalar butonları */
+    .btn-outline-secondary {
+        border-color: #E2E8F0;
+        color: #64748B;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: var(--light-purple);
+        border-color: var(--primary-purple);
+        color: var(--primary-purple);
+    }
+
+    /* İş Kartları */
+    .featured-jobs-slider {
+        position: relative;
+        margin: 20px 0;
+    }
+
+    .slider-container {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .jobs-wrapper {
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .jobs-track {
+        display: flex;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .job-card {
+        flex: 0 0 25%;
+        padding: 0 10px;
+        box-sizing: border-box;
+        cursor: pointer;
+    }
+
+    .job-card .card {
+        border: 1px solid #E2E8F0;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .job-card .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(105, 52, 255, 0.1);
+        border-color: var(--primary-purple);
+    }
+
+    .job-img {
+        height: 160px;
+        object-fit: cover;
+    }
+
+    .job-card .card-body {
+        padding: 1.5rem;
+    }
+
+    .job-card .card-title {
+        color: var(--primary-purple);
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+
+    .job-card .company-name {
+        color: #374151;
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+    .job-card .location {
+        color: #6B7280;
+        font-size: 0.9rem;
+    }
+
+    /* Slider Navigasyon Butonları */
+    .slider-nav {
+        background: white;
+        border: 2px solid var(--primary-purple);
+        color: var(--primary-purple);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .slider-nav:hover:not(:disabled) {
+        background: var(--primary-purple);
+        color: white;
+    }
+
+    .slider-nav:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        border-color: #CBD5E1;
+        color: #CBD5E1;
+    }
+
+    /* Form Kontrolleri */
+    .form-control {
+        border-radius: 8px;
+        padding: 0.625rem 1rem;
+        border: 2px solid #E2E8F0;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-purple);
+        box-shadow: 0 0 0 3px rgba(105, 52, 255, 0.1);
+    }
+
+    /* Responsive ayarlamalar */
+    @media (max-width: 992px) {
+        .job-card {
+            flex: 0 0 33.333%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .job-card {
+            flex: 0 0 50%;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .job-card {
+            flex: 0 0 100%;
+        }
+    }
 </style>
 @endsection
 
