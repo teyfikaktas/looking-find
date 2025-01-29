@@ -14,16 +14,30 @@ class Auth0Controller extends Controller
 {
     public function login()
     {
-        return Auth0::withGuard('web')->login(route('callback'));
+        $auth0 = app('auth0');
+        
+        return $auth0->getSdk()->login(
+            route('callback'), // callback URL
+            null,    // organization
+            null,    // invitation
+            null,    // screen hint
+            null,    // login hint
+            [
+                'scope' => 'openid profile email',
+            ]
+        );
     }
 
     public function callback(Request $request)
     {
+        $auth0 = app('auth0');
+        
         // Auth0 exchange işlemi
-        Auth0::exchange();
+        $auth0->exchange();
         
         // Kullanıcı bilgilerini al
-        $userInfo = Auth0::getUser();
+        $credentials = $auth0->getCredentials();
+        $userInfo = $credentials ? $credentials->user : null;
 
         if (!$userInfo) {
             return redirect()->route('login')->with('error', 'Authentication failed');
@@ -58,8 +72,10 @@ class Auth0Controller extends Controller
     {
         Auth::logout();
         
+        $auth0 = app('auth0');
+        
         return redirect(
-            Auth0::getSdk()
+            $auth0->getSdk()
                 ->authentication()
                 ->getLogoutLink(
                     route('login'),
