@@ -1,5 +1,5 @@
 <!-- resources/views/search/results.blade.php -->
-@extends('layouts.app')
+@extends('layouts.main') 
 
 @section('content')
 <div class="container mt-4">
