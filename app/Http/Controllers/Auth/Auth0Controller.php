@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Auth0\Login\Auth0Controller as Auth0BaseController;
+use Auth0\Laravel\Auth0;  // Bu satırı ekleyin
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
 
-class Auth0Controller extends Auth0BaseController
+class Auth0Controller extends Controller  // Auth0BaseController yerine sadece Controller
 {
     public function login()
     {
