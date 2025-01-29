@@ -225,7 +225,7 @@
 <script>
 $(document).ready(function() {
     // Sayfa yüklendiğinde şehirleri getir
-    if ($('#country-select').val()) {
+    if ($('#country-select').val() === 'Türkiye') {
         $.get('/api/cities', function(cities) {
             let citySelect = $('#city-select');
             citySelect.empty().append('<option value="">Şehir Seçin</option>');
@@ -241,22 +241,28 @@ $(document).ready(function() {
     }
 
     // Filtreleri otomatik submit et
-    $('.form-check-input, select[name="country"], select[name="city"], select[name="town"]').change(function() {
+    $('.form-check-input, select[name="city"], select[name="town"]').change(function() {
         $('#filter-form').submit();
     });
 
-    // Şehirleri dinamik yükle
+    // Ülke değiştiğinde şehirleri getir
     $('#country-select').change(function() {
         let country = $(this).val();
-        if(country) {
+        let citySelect = $('#city-select');
+        let townSelect = $('#town-select');
+        
+        citySelect.empty().append('<option value="">Şehir Seçin</option>');
+        townSelect.empty().append('<option value="">İlçe Seçin</option>');
+        
+        if(country === 'Türkiye') {
             $.get('/api/cities', function(cities) {
-                let citySelect = $('#city-select');
-                citySelect.empty().append('<option value="">Şehir Seçin</option>');
                 cities.forEach(city => {
                     citySelect.append(`<option value="${city}">${city}</option>`);
                 });
             });
         }
+        
+        $('#filter-form').submit();
     });
 
     // İlçeleri dinamik yükle
@@ -274,6 +280,7 @@ $(document).ready(function() {
 
     $('#city-select').change(function() {
         loadTowns($(this).val());
+        $('#filter-form').submit();
     });
 });
 </script>
