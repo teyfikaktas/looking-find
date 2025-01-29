@@ -44,6 +44,9 @@ Route::get('/jobs/{id}/edit', [JobController::class, 'edit'])->middleware('auth'
 Route::put('/jobs/{id}', [JobController::class, 'update'])->middleware('auth')->name('jobs.update');
 Route::delete('/jobs/{id}', [JobController::class, 'destroy'])->middleware('auth')->name('jobs.destroy');
 
+Route::get('/search/results', [SearchController::class, 'results'])->name('search.results');
+
+
 // ApplicationController Rotası
 Route::post('/jobs/{id}/apply', [ApplicationController::class, 'apply'])->middleware('auth')->name('jobs.apply');
 

@@ -1,48 +1,34 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Job;
+use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-    /**
-     * Display search results with filtering.
-     */
     public function results(Request $request)
     {
-        // Arama kriterlerini al
-        $position = $request->input('position', null);
-        $country = $request->input('country', null);
-        $city = $request->input('city', null);
-        $town = $request->input('town', null);
-        $workingPreference = $request->input('working_preference', null);
-
-        // Sorguyu oluştur
         $query = Job::query();
 
-        if ($position) {
-            $query->where('position', 'like', '%' . $position . '%');
+        // Pozisyon/Şirket araması
+        if ($request->filled('position')) {
+            $query->where(function($q) use ($request) {
+                $q->where('position', 'like', '%' . $request->position . '%')
+                  ->orWhere('company', 'like', '%' . $request->position . '%');
+            });
         }
 
-        if ($country) {
-            $query->where('country', $country);
+        // Şehir araması
+        if ($request->filled('city')) {
+            $query->where('city', 'like', '%' . $request->city . '%');
         }
 
-        if ($city) {
-            $query->where('city', $city);
+        // Çalışma tercihi filtresi
+        if ($request->filled('working_preference')) {
+            $query->whereIn('working_preference', $request->working_preference);
         }
 
-        if ($town) {
-            $query->where('town', $town);
-        }
-
-        if ($workingPreference) {
-            $query->where('working_preference', $workingPreference);
-        }
-
-        $jobs = $query->paginate(10); // Sayfalama
+        $jobs = $query->orderBy('created_at', 'desc')->paginate(10);
 
         return view('search.results', compact('jobs'));
     }
