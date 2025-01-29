@@ -1,4 +1,5 @@
 <?php
+// App\Http\Controllers\SearchController.php
 namespace App\Http\Controllers;
 
 use App\Models\Job;
@@ -10,7 +11,7 @@ class SearchController extends Controller
     {
         $query = Job::query();
 
-        // Pozisyon/Şirket araması
+        // Pozisyon veya şirket araması
         if ($request->filled('position')) {
             $query->where(function($q) use ($request) {
                 $q->where('position', 'like', '%' . $request->position . '%')
@@ -28,7 +29,17 @@ class SearchController extends Controller
             $query->whereIn('working_preference', $request->working_preference);
         }
 
-        $jobs = $query->orderBy('created_at', 'desc')->paginate(10);
+        // İlçe filtresi
+        if ($request->filled('town')) {
+            $query->where('town', 'like', '%' . $request->town . '%');
+        }
+
+        // Ülke filtresi
+        if ($request->filled('country')) {
+            $query->where('country', $request->country);
+        }
+
+        $jobs = $query->latest()->paginate(10)->withQueryString();
 
         return view('search.results', compact('jobs'));
     }

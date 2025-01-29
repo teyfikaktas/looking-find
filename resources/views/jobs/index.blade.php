@@ -9,21 +9,32 @@
             <p class="fs-5"><strong>71.293</strong> {{ __('iş ilanı on binlerce şirket') }}</p>
 
             <!-- Arama Formu -->
-            <form method="GET" action="{{ route('home') }}" class="mb-4">
-                <div class="row">
-                    <div class="col-md-5">
-                        <input type="text" name="position" id="position-autocomplete" class="form-control" placeholder="{{ __('Pozisyon, Şirket') }}" value="{{ request('position') }}">
-                    </div>
-                    <div class="col-md-5">
-                        <input type="text" name="city" id="city-autocomplete" class="form-control" placeholder="{{ __('Şehir veya İlçe') }}" value="{{ request('city') }}">
-                    </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn search-btn">
-                            <i class="fas fa-search"></i> {{ __('İş Bul') }}
-                        </button>
-                    </div>
-                </div>
-            </form>
+       <!-- resources/views/home.blade.php içindeki form kısmı -->
+<form method="GET" action="{{ route('search.results') }}" class="mb-4">
+    <div class="row">
+        <div class="col-md-5">
+            <input type="text" 
+                   name="position" 
+                   id="position-autocomplete" 
+                   class="form-control" 
+                   placeholder="{{ __('Pozisyon, Şirket') }}" 
+                   value="{{ request('position') }}">
+        </div>
+        <div class="col-md-5">
+            <input type="text" 
+                   name="city" 
+                   id="city-autocomplete" 
+                   class="form-control" 
+                   placeholder="{{ __('Şehir veya İlçe') }}" 
+                   value="{{ request('city') }}">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary search-btn w-100">
+                <i class="fas fa-search"></i> {{ __('İş Bul') }}
+            </button>
+        </div>
+    </div>
+</form>
 
             <!-- Popüler Aramalar -->
             <div class="d-flex flex-wrap">

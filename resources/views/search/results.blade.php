@@ -1,4 +1,5 @@
-@extends('layouts.main')
+<!-- resources/views/search/results.blade.php -->
+@extends('layouts.app')
 
 @section('content')
 <div class="container mt-4">
@@ -22,9 +23,11 @@
                                 <option value="">Ülke Seçin</option>
                                 <option value="Türkiye" {{ request('country') == 'Türkiye' ? 'selected' : '' }}>Türkiye</option>
                             </select>
-                            <select class="form-select" name="city">
+                            <select class="form-select mb-2" name="city">
                                 <option value="">Şehir Seçin</option>
-                                <!-- Şehirler AJAX ile yüklenebilir -->
+                            </select>
+                            <select class="form-select" name="town">
+                                <option value="">İlçe Seçin</option>
                             </select>
                         </div>
 
@@ -32,19 +35,19 @@
                         <div class="mb-4">
                             <label class="form-label fw-bold">Çalışma Tercihi</label>
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="working_preference[]" value="remote" id="remote"
-                                    {{ in_array('remote', (array)request('working_preference')) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="remote">Uzaktan</label>
+                                <input type="checkbox" class="form-check-input" name="working_preference[]" value="is_yerinde" id="is_yerinde"
+                                    {{ in_array('is_yerinde', (array)request('working_preference')) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="is_yerinde">İş Yerinde</label>
                             </div>
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="working_preference[]" value="on-site" id="on-site"
-                                    {{ in_array('on-site', (array)request('working_preference')) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="on-site">İş Yerinde</label>
+                                <input type="checkbox" class="form-check-input" name="working_preference[]" value="uzaktan" id="uzaktan"
+                                    {{ in_array('uzaktan', (array)request('working_preference')) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="uzaktan">Uzaktan</label>
                             </div>
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="working_preference[]" value="hybrid" id="hybrid"
-                                    {{ in_array('hybrid', (array)request('working_preference')) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="hybrid">Hibrit</label>
+                                <input type="checkbox" class="form-check-input" name="working_preference[]" value="hibrit" id="hibrit"
+                                    {{ in_array('hibrit', (array)request('working_preference')) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="hibrit">Hibrit</label>
                             </div>
                         </div>
 
@@ -57,25 +60,31 @@
         <!-- Sağ Taraf - Sonuçlar -->
         <div class="col-lg-9">
             <!-- Aktif Filtreler -->
-            @if(request()->anyFilled(['position', 'city', 'working_preference']))
+            @if(request()->anyFilled(['position', 'city', 'working_preference', 'country', 'town']))
                 <div class="d-flex align-items-center mb-3 flex-wrap">
                     <span class="me-2">Seçili Filtreler:</span>
                     @if(request('position'))
                         <span class="badge bg-light text-dark me-2 mb-2">
-                            Pozisyon/Şirket: {{ request('position') }}
+                            {{ request('position') }}
                             <a href="{{ request()->except('position') }}" class="text-dark text-decoration-none ms-1">&times;</a>
                         </span>
                     @endif
                     @if(request('city'))
                         <span class="badge bg-light text-dark me-2 mb-2">
-                            Şehir: {{ request('city') }}
+                            {{ request('city') }}
                             <a href="{{ request()->except('city') }}" class="text-dark text-decoration-none ms-1">&times;</a>
+                        </span>
+                    @endif
+                    @if(request('country'))
+                        <span class="badge bg-light text-dark me-2 mb-2">
+                            {{ request('country') }}
+                            <a href="{{ request()->except('country') }}" class="text-dark text-decoration-none ms-1">&times;</a>
                         </span>
                     @endif
                     @if(request('working_preference'))
                         @foreach((array)request('working_preference') as $pref)
                             <span class="badge bg-light text-dark me-2 mb-2">
-                                {{ ucfirst($pref) }}
+                                {{ $pref }}
                                 <a href="#" class="text-dark text-decoration-none ms-1 remove-preference" data-preference="{{ $pref }}">&times;</a>
                             </span>
                         @endforeach
@@ -84,24 +93,13 @@
                 </div>
             @endif
 
-            <!-- Sonuç Sayısı ve Sıralama -->
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <p class="mb-0">{{ $jobs->total() }} ilan bulundu</p>
-                <select class="form-select" style="width: auto;" onchange="window.location.href=this.value">
-                    <option value="{{ request()->fullUrlWithQuery(['sort' => 'newest']) }}" 
-                            {{ request('sort') == 'newest' ? 'selected' : '' }}>En Yeni</option>
-                    <option value="{{ request()->fullUrlWithQuery(['sort' => 'oldest']) }}"
-                            {{ request('sort') == 'oldest' ? 'selected' : '' }}>En Eski</option>
-                </select>
-            </div>
-
-            <!-- İş İlanları -->
+            <!-- Sonuçlar -->
             @forelse($jobs as $job)
                 <div class="card shadow-sm mb-3">
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-auto">
-                                <img src="{{ $job->randomImage() }}" alt="{{ $job->company }}" 
+                                <img src="{{ $job->company_logo }}" alt="{{ $job->company }}" 
                                      class="rounded" style="width: 80px; height: 80px; object-fit: cover;">
                             </div>
                             <div class="col">
@@ -114,7 +112,7 @@
                                     </span>
                                     <span class="me-3">
                                         <i class="fas fa-building me-1"></i>
-                                        {{ ucfirst($job->working_preference) }}
+                                        {{ $job->working_preference }}
                                     </span>
                                     <span>
                                         <i class="fas fa-clock me-1"></i>
@@ -134,7 +132,7 @@
                 </div>
             @endforelse
 
-            <!-- Pagination -->
+            <!-- Sayfalama -->
             <div class="d-flex justify-content-center">
                 {{ $jobs->links() }}
             </div>
@@ -147,7 +145,7 @@
 <script>
 $(document).ready(function() {
     // Filtreleri otomatik submit et
-    $('.form-check-input').change(function() {
+    $('.form-check-input, select[name="country"], select[name="city"], select[name="town"]').change(function() {
         $('#filter-form').submit();
     });
 
@@ -163,6 +161,34 @@ $(document).ready(function() {
         preferences.forEach(p => url.searchParams.append('working_preference[]', p));
         
         window.location.href = url.toString();
+    });
+
+    // Şehirleri dinamik yükle
+    $('select[name="country"]').change(function() {
+        let country = $(this).val();
+        if(country) {
+            $.get(`/api/cities/${country}`, function(cities) {
+                let citySelect = $('select[name="city"]');
+                citySelect.empty().append('<option value="">Şehir Seçin</option>');
+                cities.forEach(city => {
+                    citySelect.append(`<option value="${city}">${city}</option>`);
+                });
+            });
+        }
+    });
+
+    // İlçeleri dinamik yükle
+    $('select[name="city"]').change(function() {
+        let city = $(this).val();
+        if(city) {
+            $.get(`/api/towns/${city}`, function(towns) {
+                let townSelect = $('select[name="town"]');
+                townSelect.empty().append('<option value="">İlçe Seçin</option>');
+                towns.forEach(town => {
+                    townSelect.append(`<option value="${town}">${town}</option>`);
+                });
+            });
+        }
     });
 });
 </script>
