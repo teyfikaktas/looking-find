@@ -9,6 +9,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Cookie;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\Auth\Auth0Controller;
 
 // Ana Sayfa - İş İlanlarını Listele
 Route::get('/', [JobController::class, 'index'])->name('home');
@@ -17,7 +18,9 @@ Route::get('/', [JobController::class, 'index'])->name('home');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
+Route::get('/login/auth0', [Auth0Controller::class, 'login'])->name('auth0.login');
+Route::get('/callback', [Auth0Controller::class, 'callback'])->name('auth0.callback');
+Route::get('/auth0/logout', [Auth0Controller::class, 'logout'])->name('auth0.logout');
 // Profile Rotaları
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
