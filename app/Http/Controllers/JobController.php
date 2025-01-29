@@ -98,18 +98,15 @@ class JobController extends Controller
     {
         $job = Job::findOrFail($id);
         
-        // İlgili ilanları getir (aynı departman veya şehirdeki diğer ilanlar)
+        // İlgili ilanları getir (aynı şehirdeki diğer ilanlar)
         $relatedJobs = Job::where('id', '!=', $id)
-            ->where(function($query) use ($job) {
-                $query->where('department', $job->department)
-                      ->orWhere('city', $job->city);
-            })
+            ->where('city', $job->city)
             ->inRandomOrder()
             ->limit(3)
             ->get();
 
-        // Rastgele başvuru sayısı ata
-        $job->application_count = rand(1, 500);
+        // Rastgele başvuru sayısı ata (frontend'de gösterim için)
+        $applicationCount = rand(1, 500);
         
         // Kullanıcı başvurmuş mu kontrol et
         $hasApplied = false;
@@ -119,13 +116,14 @@ class JobController extends Controller
                                    ->exists();
         }
 
-        return view('jobs.show', compact('job', 'relatedJobs', 'hasApplied'));
+        return view('jobs.show', compact('job', 'relatedJobs', 'hasApplied', 'applicationCount'));
     }
 
     public function apply($id)
     {
         if (!Auth::check()) {
-            return redirect()->route('login')->with('warning', 'Başvuru yapabilmek için giriş yapmalısınız.');
+            return redirect()->route('login')
+                ->with('warning', 'Başvuru yapabilmek için giriş yapmalısınız.');
         }
 
         $job = Job::findOrFail($id);
@@ -147,6 +145,7 @@ class JobController extends Controller
 
         return back()->with('success', 'Başvurunuz başarıyla alındı.');
     }
+
     /**
      * Show the form for editing the specified job posting.
      */

@@ -13,9 +13,25 @@
                             <h1 class="h3 mb-2">{{ $job->position }}</h1>
                             <h2 class="h5 text-purple mb-3">{{ $job->company }}</h2>
                             <div class="text-muted">
-                                <span class="me-3"><i class="fas fa-map-marker-alt me-1"></i> {{ $job->city }}</span>
-                                <span class="me-3"><i class="fas fa-building me-1"></i> {{ $job->working_type }}</span>
-                                <span><i class="fas fa-clock me-1"></i> Bugün güncellendi</span>
+                                <span class="me-3">
+                                    <i class="fas fa-map-marker-alt me-1"></i> 
+                                    {{ $job->city }}@if($job->town), {{ $job->town }}@endif
+                                </span>
+                                <span class="me-3">
+                                    <i class="fas fa-building me-1"></i> 
+                                    @php
+                                        $workingPreferenceLabels = [
+                                            'on-site' => 'İş Yerinde',
+                                            'remote' => 'Uzaktan',
+                                            'hybrid' => 'Hibrit'
+                                        ];
+                                    @endphp
+                                    {{ $workingPreferenceLabels[$job->working_preference] ?? $job->working_preference }}
+                                </span>
+                                <span>
+                                    <i class="fas fa-clock me-1"></i> 
+                                    {{ $job->updated_at->diffForHumans() }}
+                                </span>
                             </div>
                         </div>
                         <div class="d-flex gap-2">
@@ -44,28 +60,22 @@
 
                     <!-- İlan Detayları -->
                     <div class="row mb-4">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="mb-3">
-                                <label class="text-muted">Çalışma Şekli</label>
-                                <div>{{ $job->working_type }}</div>
+                                <label class="text-muted">Çalışma Tercihi</label>
+                                <div>{{ $workingPreferenceLabels[$job->working_preference] ?? $job->working_preference }}</div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="mb-3">
-                                <label class="text-muted">Pozisyon Seviyesi</label>
-                                <div>{{ $job->level }}</div>
+                                <label class="text-muted">Lokasyon</label>
+                                <div>{{ $job->city }}@if($job->town), {{ $job->town }}@endif</div>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="mb-3">
-                                <label class="text-muted">Departman</label>
-                                <div>{{ $job->department }}</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="mb-3">
                                 <label class="text-muted">Başvuru Sayısı</label>
-                                <div>{{ $job->application_count }} başvuru</div>
+                                <div>{{ $applicationCount }} başvuru</div>
                             </div>
                         </div>
                     </div>
@@ -74,20 +84,6 @@
                     <div class="mb-4">
                         <h5 class="mb-3">İş Tanımı</h5>
                         {!! nl2br(e($job->description)) !!}
-                    </div>
-
-                    <!-- Aday Kriterleri -->
-                    <div class="mb-4">
-                        <h5 class="mb-3">Aday Kriterleri</h5>
-                        <div class="mb-2">
-                            <strong>Tecrübe:</strong> {{ $job->experience }}
-                        </div>
-                        <div class="mb-2">
-                            <strong>Eğitim Seviyesi:</strong> {{ $job->education_level }}
-                        </div>
-                        <div>
-                            <strong>Askerlik Durumu:</strong> {{ $job->military_status }}
-                        </div>
                     </div>
                 </div>
             </div>
@@ -101,14 +97,15 @@
                 </div>
                 <div class="card-body">
                     @foreach($relatedJobs as $relatedJob)
-                        <div class="d-flex align-items-center mb-3 pb-3 border-bottom">
-                            <img src="{{ $relatedJob->company_logo }}" alt="{{ $relatedJob->company }}" 
+                        <div class="d-flex align-items-center mb-3 pb-3 {{ !$loop->last ? 'border-bottom' : '' }}">
+                            <img src="https://via.placeholder.com/48" alt="{{ $relatedJob->company }}" 
                                  class="rounded me-3" style="width: 48px; height: 48px; object-fit: cover;">
                             <div class="flex-grow-1">
                                 <h6 class="mb-1">{{ $relatedJob->position }}</h6>
                                 <div class="small text-muted">{{ $relatedJob->company }}</div>
                                 <div class="small text-muted">
-                                    <i class="fas fa-map-marker-alt me-1"></i> {{ $relatedJob->city }}
+                                    <i class="fas fa-map-marker-alt me-1"></i> 
+                                    {{ $relatedJob->city }}@if($relatedJob->town), {{ $relatedJob->town }}@endif
                                 </div>
                             </div>
                             <a href="{{ route('jobs.show', $relatedJob->id) }}" class="btn btn-sm btn-outline-purple">
