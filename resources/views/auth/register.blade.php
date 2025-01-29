@@ -33,10 +33,10 @@
                 <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <!-- Ülke -->
                     <div>
-                        <x-input-label for="country" value="Ülke" class="text-gray-700" />
-                        <x-text-input id="country" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200" type="text" name="country" :value="old('country')" required placeholder="Ülke seçiniz" />
-                        <x-input-error :messages="$errors->get('country')" class="mt-2" />
-                    </div>
+    <x-input-label for="country" value="Ülke" class="text-gray-700" />
+    <x-text-input id="country" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200" type="text" name="country" :value="old('country')" required placeholder="Ülke seçiniz" autocomplete="off" />
+    <x-input-error :messages="$errors->get('country')" class="mt-2" />
+</div>
 
                     <!-- Şehir -->
                     <div>
@@ -66,20 +66,21 @@
                     <x-input-error :messages="$errors->get('photo')" class="mt-2" />
                 </div>
 
-                <!-- Şifre Bölümü -->
-                <div class="mt-4 space-y-4">
-                    <div>
-                        <x-input-label for="password" value="Şifre" class="text-gray-700" />
-                        <x-text-input id="password" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200" type="password" name="password" required placeholder="Şifrenizi giriniz" />
-                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                    </div>
+<!-- Şifre Bölümü -->
+<div class="mt-4 space-y-4">
+    <div>
+        <x-input-label for="password" value="Şifre" class="text-gray-700" />
+        <x-text-input id="password" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200" type="password" name="password" required placeholder="Şifrenizi giriniz" />
+        <p class="mt-1 text-sm text-gray-500">En az 8 karakter, 1 sayı ve 1 özel karakter içermelidir</p>
+        <x-input-error :messages="$errors->get('password')" class="mt-2" />
+    </div>
 
-                    <div>
-                        <x-input-label for="password_confirmation" value="Şifre Tekrar" class="text-gray-700" />
-                        <x-text-input id="password_confirmation" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200" type="password" name="password_confirmation" required placeholder="Şifrenizi tekrar giriniz" />
-                        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-                    </div>
-                </div>
+    <div>
+        <x-input-label for="password_confirmation" value="Şifre Tekrar" class="text-gray-700" />
+        <x-text-input id="password_confirmation" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200" type="password" name="password_confirmation" required placeholder="Şifrenizi tekrar giriniz" />
+        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+    </div>
+</div>
 
                 <div class="flex items-center justify-between mt-6">
                     <a class="text-sm text-indigo-600 hover:text-indigo-900" href="{{ route('login') }}">
@@ -114,7 +115,17 @@
                     .appendTo(ul);
             };
         });
-
+        $("#country").autocomplete({
+    source: "{{ route('autocomplete.countries') }}",
+    minLength: 1,
+    select: function(event, ui) {
+        $("#country").val(ui.item.value);
+    }
+}).autocomplete("instance")._renderItem = function(ul, item) {
+    return $("<li>")
+        .append("<div class='px-4 py-2'>" + item.label + "</div>")
+        .appendTo(ul);
+};
         // Fotoğraf önizleme
         document.getElementById('photo').addEventListener('change', function(e) {
             const file = e.target.files[0];

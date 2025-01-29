@@ -34,6 +34,8 @@ Route::get('/autocomplete/positions', [AutocompleteController::class, 'positions
 // Şehirler için autocomplete API rotası
 Route::get('/autocomplete/cities', [AutocompleteController::class, 'cities'])->name('autocomplete.cities');
 
+Route::get('/autocomplete/countries', [AutoCompleteController::class, 'countries'])->name('autocomplete.countries');
+
 // JobController Rotaları
 Route::get('/jobs/{id}', [JobController::class, 'show'])->name('jobs.show');
 Route::get('/jobs/create', [JobController::class, 'create'])->middleware('auth')->name('jobs.create');
