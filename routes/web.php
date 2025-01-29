@@ -22,8 +22,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::get('/language/{lang}', [LanguageController::class, 'switchLanguage'])->name('language.switch');
-
+Route::get('/lang/{lang}', function($lang) {
+    if (in_array($lang, ['en', 'tr'])) {
+        session(['locale' => $lang]);
+        app()->setLocale($lang);
+    }
+    return back();
+})->name('language.switch');
 // Pozisyonlar için autocomplete API rotası
 Route::get('/autocomplete/positions', [AutocompleteController::class, 'positions'])->name('autocomplete.positions');
 
