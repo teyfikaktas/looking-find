@@ -3,7 +3,7 @@
         <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
             <!-- Logo -->
             <div class="flex justify-center mb-6">
-                <img src="{{ asset('images/left-logo') }}" alt="Logo" class="w-32 h-auto">
+                <img src="{{ asset('images/left-logo.png') }}" alt="Logo" class="w-32 h-auto">
             </div>
 
             <!-- Session Status -->
@@ -53,12 +53,12 @@
                     @if (Route::has('password.request'))
                         <a class="text-sm text-indigo-600 hover:text-indigo-500 underline" 
                             href="{{ route('password.request') }}">
-                            {{ __('Şifremi unuttum') }}
+                            Şifremi unuttum
                         </a>
                     @endif
 
                     <x-primary-button class="ml-3 bg-indigo-600 hover:bg-indigo-700">
-                        {{ __('Giriş Yap') }}
+                        Giriş Yap
                     </x-primary-button>
                 </div>
             </form>
