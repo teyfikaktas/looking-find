@@ -56,18 +56,11 @@ class SearchController extends Controller
         // Pagination ve query string'i koru
         $jobs = $query->paginate(10)->withQueryString();
 
-        // Filtreleme için gerekli ek verileri view'e gönder
-        return view('search.results', [
-            'jobs' => $jobs,
-            'workingPreferences' => $workingPreferences,
-            'currentSort' => $sortOrder
-        ]);
+        return view('search.results', compact('jobs'));
     }
 
-    // İlçeleri getirmek için yeni metod
     public function getTowns($city)
     {
-        // İlçeleri veritabanından veya başka bir kaynaktan al
         $towns = Job::where('city', $city)
                    ->distinct()
                    ->pluck('town')
@@ -77,10 +70,8 @@ class SearchController extends Controller
         return response()->json($towns);
     }
 
-    // Şehirleri getirmek için yeni metod
     public function getCities($country)
     {
-        // Şehirleri veritabanından veya başka bir kaynaktan al
         $cities = Job::where('country', $country)
                     ->distinct()
                     ->pluck('city')

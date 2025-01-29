@@ -35,19 +35,19 @@
                         <div class="mb-4">
                             <label class="form-label fw-bold">Çalışma Tercihi</label>
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="working_preference[]" value="is_yerinde" id="is_yerinde"
-                                    {{ in_array('is_yerinde', (array)request('working_preference')) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="is_yerinde">İş Yerinde</label>
+                                <input type="checkbox" class="form-check-input" name="working_preference[]" value="on-site" id="on-site"
+                                    {{ in_array('on-site', (array)request('working_preference')) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="on-site">İş Yerinde</label>
                             </div>
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="working_preference[]" value="uzaktan" id="uzaktan"
-                                    {{ in_array('uzaktan', (array)request('working_preference')) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="uzaktan">Uzaktan</label>
+                                <input type="checkbox" class="form-check-input" name="working_preference[]" value="remote" id="remote"
+                                    {{ in_array('remote', (array)request('working_preference')) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="remote">Uzaktan</label>
                             </div>
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="working_preference[]" value="hibrit" id="hibrit"
-                                    {{ in_array('hibrit', (array)request('working_preference')) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="hibrit">Hibrit</label>
+                                <input type="checkbox" class="form-check-input" name="working_preference[]" value="hybrid" id="hybrid"
+                                    {{ in_array('hybrid', (array)request('working_preference')) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="hybrid">Hibrit</label>
                             </div>
                         </div>
 
@@ -66,33 +66,46 @@
                     @if(request('position'))
                         <span class="badge bg-light text-dark me-2 mb-2">
                             {{ request('position') }}
-                            <a href="{{ request()->except('position') }}" class="text-dark text-decoration-none ms-1">&times;</a>
+                            <a href="{{ route('search.results', array_merge(
+                                request()->except('position')->toArray(),
+                                ['page' => 1]
+                            )) }}" class="text-dark text-decoration-none ms-1">&times;</a>
                         </span>
                     @endif
                     @if(request('city'))
                         <span class="badge bg-light text-dark me-2 mb-2">
                             {{ request('city') }}
-                            <a href="{{ request()->except('city') }}" class="text-dark text-decoration-none ms-1">&times;</a>
+                            <a href="{{ route('search.results', array_merge(
+                                request()->except('city')->toArray(),
+                                ['page' => 1]
+                            )) }}" class="text-dark text-decoration-none ms-1">&times;</a>
                         </span>
                     @endif
                     @if(request('country'))
                         <span class="badge bg-light text-dark me-2 mb-2">
                             {{ request('country') }}
-                            <a href="{{ request()->except('country') }}" class="text-dark text-decoration-none ms-1">&times;</a>
+                            <a href="{{ route('search.results', array_merge(
+                                request()->except('country')->toArray(),
+                                ['page' => 1]
+                            )) }}" class="text-dark text-decoration-none ms-1">&times;</a>
                         </span>
                     @endif
                     @if(request('working_preference'))
                         @foreach((array)request('working_preference') as $pref)
                             <span class="badge bg-light text-dark me-2 mb-2">
                                 @php
-                                $prefLabels = [
-                                    'is_yerinde' => 'İş Yerinde',
-                                    'uzaktan' => 'Uzaktan',
-                                    'hibrit' => 'Hibrit'
-                                ];
-                            @endphp
-                            {{ $prefLabels[$pref] ?? $pref }}
-                                <a href="#" class="text-dark text-decoration-none ms-1 remove-preference" data-preference="{{ $pref }}">&times;</a>
+                                    $prefLabels = [
+                                        'on-site' => 'İş Yerinde',
+                                        'remote' => 'Uzaktan',
+                                        'hybrid' => 'Hibrit'
+                                    ];
+                                @endphp
+                                {{ $prefLabels[$pref] ?? $pref }}
+                                <a href="{{ route('search.results', array_merge(
+                                    request()->except(['working_preference'])->toArray(),
+                                    ['working_preference' => array_diff((array)request('working_preference'), [$pref]),
+                                    'page' => 1]
+                                )) }}" class="text-dark text-decoration-none ms-1">&times;</a>
                             </span>
                         @endforeach
                     @endif
@@ -119,7 +132,14 @@
                                     </span>
                                     <span class="me-3">
                                         <i class="fas fa-building me-1"></i>
-                                        {{ $job->working_preference }}
+                                        @php
+                                            $workingPreferenceLabels = [
+                                                'on-site' => 'İş Yerinde',
+                                                'remote' => 'Uzaktan',
+                                                'hybrid' => 'Hibrit'
+                                            ];
+                                        @endphp
+                                        {{ $workingPreferenceLabels[$job->working_preference] ?? $job->working_preference }}
                                     </span>
                                     <span>
                                         <i class="fas fa-clock me-1"></i>
