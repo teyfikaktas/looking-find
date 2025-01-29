@@ -9,21 +9,21 @@ class LanguageController extends Controller
 {
     public function switchLanguage($lang)
     {
-        try {
-            if (in_array($lang, ['en', 'tr'])) {
-                Session::put('locale', $lang);
-                App::setLocale($lang);
-                
-                return redirect()
-                    ->back()
-                    ->with('locale_changed', true)
-                    ->withCookie(cookie()->forever('locale', $lang));
-            }
+        if (in_array($lang, ['en', 'tr'])) {
+            Session::put('locale', $lang);
+            App::setLocale($lang);
             
-            return redirect()->back();
-        } catch (\Exception $e) {
-            \Log::error('Dil değiştirme hatası: ' . $e->getMessage());
-            return redirect()->back();
+            // Debug için ekleyelim
+            \Log::info('Dil değiştirme:', [
+                'Seçilen dil' => $lang,
+                'Session dili' => Session::get('locale'),
+                'Uygulama dili' => App::getLocale()
+            ]);
+    
+            // Redirect yerine url()->previous() kullanalım
+            return redirect(url()->previous())->withCookie('locale', $lang);
         }
+        
+        return back();
     }
 }
