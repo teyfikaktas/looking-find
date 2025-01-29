@@ -24,8 +24,8 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/lang/{lang}', function($lang) {
     if (in_array($lang, ['en', 'tr'])) {
-        session(['locale' => $lang]);
         app()->setLocale($lang);
+        return back()->withCookie('locale', $lang, 60*24*365); // 1 yıl süreli cookie
     }
     return back();
 })->name('language.switch');
