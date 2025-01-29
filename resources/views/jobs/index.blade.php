@@ -1,5 +1,4 @@
-@extends('layouts.main')  // layouts.app yerine layouts.main kullanın
-
+@extends('layouts.main') 
 
 @section('content')
 <div class="container">
