@@ -14,30 +14,44 @@ class Auth0Controller extends Controller
     public function login()
     {
         $auth0 = app('auth0');
-        
-        return $auth0->getSdk()->authentication()->getLoginLink(
-            Str::random(40),
-            config('auth0.guards.web.redirect_uri'),
-            [
-                'scope' => 'openid profile email',
-                'response_type' => 'code'
-            ]
+
+        // Önerilen basit kullanım:
+        return $auth0->getSdk()->login(
+            scope: 'openid profile email'
         );
+        
+        // Eğer getLoginLink() kullanacaksanız:
+        /*
+        return redirect(
+            $auth0->getSdk()->authentication()->getLoginLink(
+                Str::random(40),
+                // .env/config'den gelen URI
+                config('auth0.guards.web.redirect_uri'),
+                [
+                    'scope'         => 'openid profile email',
+                    'response_type' => 'code'
+                ]
+            )
+        );
+        */
     }
 
     public function callback(Request $request)
     {
         $auth0 = app('auth0');
+        // Kod değişimi
         $auth0->exchange();
-        
-        $userInfo = $auth0->getCredentials()->user;
 
-        if (!$userInfo) {
+        $credentials = $auth0->getCredentials();
+        $userInfo = $credentials ? $credentials->user : null;
+
+        if (! $userInfo) {
             return redirect()->route('login');
         }
 
+        // Auth0 User => Laravel User eşleştirme
         $user = User::updateOrCreate(
-            ['email' => $userInfo['email']],
+            [ 'email' => $userInfo['email'] ],
             [
                 'name' => $userInfo['name'] ?? null,
                 'auth0_id' => $userInfo['sub'],
@@ -58,9 +72,10 @@ class Auth0Controller extends Controller
         Auth::logout();
         
         return redirect(
-            app('auth0')->getSdk()->authentication()->getLogoutLink(
-                route('login')
-            )
+            app('auth0')
+                ->getSdk()
+                ->authentication()
+                ->getLogoutLink(route('login'))
         );
     }
 }
