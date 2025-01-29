@@ -17,8 +17,8 @@ class Auth0Controller extends Controller
         
         return redirect(
             $auth0->getSdk()->authentication()->getLoginLink(
-                callbackUrl: config('auth0.redirectUri'),
-                params: [
+                config('auth0.redirectUri'),
+                [
                     'scope' => 'openid profile email',
                 ]
             )
@@ -56,8 +56,8 @@ class Auth0Controller extends Controller
     {
         Auth::logout();
         
-        return app('auth0')->logout(
-            returnTo: route('login')
-        );
+        return app('auth0')->logout([
+            'returnTo' => route('login')
+        ]);
     }
 }
