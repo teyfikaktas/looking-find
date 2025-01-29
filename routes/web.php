@@ -24,10 +24,10 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/lang/{lang}', function($lang) {
     if (in_array($lang, ['en', 'tr'])) {
+        Cookie::queue('locale', $lang, 60*24*365, null, null, false, false); // Son iki parametre: secure ve httpOnly false
         app()->setLocale($lang);
-        return back()->withCookie('locale', $lang, 60*24*365); // 1 yıl süreli cookie
+        return redirect()->back();
     }
-    return back();
 })->name('language.switch');
 // Pozisyonlar için autocomplete API rotası
 Route::get('/autocomplete/positions', [AutocompleteController::class, 'positions'])->name('autocomplete.positions');
