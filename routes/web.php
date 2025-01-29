@@ -25,9 +25,7 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/lang/{lang}', function($lang) {
     if (in_array($lang, ['en', 'tr'])) {
-        $cookie = cookie()->forever('app_locale', $lang);
-        app()->setLocale($lang);
-        return redirect()->back()->cookie($cookie);
+        return redirect()->back()->withCookie('app_locale', $lang, 60*24*365); // 1 yıl süre
     }
 })->name('language.switch');
 // Pozisyonlar için autocomplete API rotası
