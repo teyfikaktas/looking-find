@@ -51,7 +51,8 @@ Route::post('/jobs/{id}/apply', [ApplicationController::class, 'apply'])->middle
 
 // SearchController Rotası
 Route::get('/search/results', [SearchController::class, 'results'])->name('search.results');
-
+Route::get('/api/cities/{country}', [SearchController::class, 'getCities']);
+Route::get('/api/towns/{city}', [SearchController::class, 'getTowns']);
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
 // LanguageController Rotası

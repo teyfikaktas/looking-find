@@ -10,7 +10,7 @@ class SearchController extends Controller
     public function results(Request $request)
     {
         $query = Job::query();
-        
+
         // Çalışma tercihlerini array olarak al
         $workingPreferences = $request->input('working_preference', []);
         if (!is_array($workingPreferences)) {
@@ -27,7 +27,7 @@ class SearchController extends Controller
 
         // City search
         if ($request->filled('city')) {
-            $query->where('city', 'like', '%' . $request->city . '%');
+            $query->where('city', $request->city);
         }
 
         // Country filter
@@ -35,9 +35,14 @@ class SearchController extends Controller
             $query->where('country', $request->country);
         }
 
-        // Working preference filter
-        if ($request->filled('working_preference')) {
-            $query->whereIn('working_preference', $request->working_preference);
+        // Town filter
+        if ($request->filled('town')) {
+            $query->where('town', $request->town);
+        }
+
+        // Working preference filter - Düzeltilmiş versiyonu
+        if (!empty($workingPreferences)) {
+            $query->whereIn('working_preference', $workingPreferences);
         }
 
         // Sort order
@@ -48,8 +53,40 @@ class SearchController extends Controller
             $query->orderBy('created_at', 'desc');
         }
 
+        // Pagination ve query string'i koru
         $jobs = $query->paginate(10)->withQueryString();
 
-        return view('search.results', compact('jobs'));
+        // Filtreleme için gerekli ek verileri view'e gönder
+        return view('search.results', [
+            'jobs' => $jobs,
+            'workingPreferences' => $workingPreferences,
+            'currentSort' => $sortOrder
+        ]);
+    }
+
+    // İlçeleri getirmek için yeni metod
+    public function getTowns($city)
+    {
+        // İlçeleri veritabanından veya başka bir kaynaktan al
+        $towns = Job::where('city', $city)
+                   ->distinct()
+                   ->pluck('town')
+                   ->filter()
+                   ->values();
+
+        return response()->json($towns);
+    }
+
+    // Şehirleri getirmek için yeni metod
+    public function getCities($country)
+    {
+        // Şehirleri veritabanından veya başka bir kaynaktan al
+        $cities = Job::where('country', $country)
+                    ->distinct()
+                    ->pluck('city')
+                    ->filter()
+                    ->values();
+
+        return response()->json($cities);
     }
 }
