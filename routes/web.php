@@ -18,8 +18,9 @@ Route::get('/', [JobController::class, 'index'])->name('home');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+// Auth0 Routes
 Route::get('/login/auth0', [Auth0Controller::class, 'login'])->name('auth0.login');
-Route::get('/callback', [Auth0Controller::class, 'callback'])->name('auth0.callback');
+Route::get('/callback', [Auth0Controller::class, 'callback'])->name('auth0.callback'); // 'callback' yerine 'auth0.callback'
 Route::get('/auth0/logout', [Auth0Controller::class, 'logout'])->name('auth0.logout');
 // Profile Rotaları
 Route::middleware('auth')->group(function () {
