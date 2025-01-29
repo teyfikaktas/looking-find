@@ -29,88 +29,109 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Custom CSS -->
-    <style>
-        .navbar-custom {
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,.08);
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-        }
-        .search-btn {
-            background-color: #0d6efd;
-            color: white;
-            padding: 0.5rem 1rem;
-        }
-        .search-btn:hover {
-            background-color: #0b5ed7;
-            color: white;
-        }
-        .profile-dropdown .dropdown-toggle::after {
-            display: none;
-        }
-        .profile-image {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,.1);
-        }
-        .profile-dropdown .dropdown-menu {
-            right: 0;
-            left: auto;
-            min-width: 260px;
-            margin-top: 0.5rem;
-        }
-        .user-name {
-            font-weight: 500;
-            color: #333;
-            margin-left: 10px;
-        }
-        .dropdown-item {
-            padding: 0.7rem 1.5rem;
-            transition: all 0.2s;
-        }
-        .dropdown-item:hover {
-            background-color: #f8f9fa;
-        }
-        .dropdown-item i {
-            width: 20px;
-            text-align: center;
-        }
-        .btn-login, .btn-register {
-            padding: 0.5rem 1.5rem;
-            font-weight: 500;
-        }
-        .navbar-brand img {
-            height: 40px;
-            transition: transform 0.2s;
-        }
-        .navbar-brand img:hover {
-            transform: scale(1.05);
-        }
-        /* Dil seçici stilleri */
-        .language-switcher {
-            margin-right: 15px;
-        }
-        .language-switcher .dropdown-toggle {
-            display: flex;
-            align-items: center;
-            padding: 6px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background: white;
-        }
-        .language-switcher .dropdown-toggle:hover {
-            background: #f8f9fa;
-        }
-        .language-flag {
-            width: 20px;
-            height: 15px;
-            margin-right: 5px;
-        }
-    </style>
+<!-- Custom CSS içindeki stil güncellemeleri -->
+<style>
+    :root {
+        --primary-purple: #6934FF;
+        --primary-purple-hover: #5729D9;
+        --secondary-purple: #8B5CF6;
+        --light-purple: #EDE9FE;
+    }
 
+    .navbar-custom {
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,.08);
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    /* Login Button */
+    .btn-login {
+        background-color: transparent;
+        border: 2px solid var(--primary-purple);
+        color: var(--primary-purple);
+        padding: 0.625rem 1.5rem;
+        font-weight: 500;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-login:hover {
+        background-color: var(--light-purple);
+        border-color: var(--primary-purple-hover);
+        color: var(--primary-purple-hover);
+        transform: translateY(-1px);
+    }
+
+    /* Register Button */
+    .btn-register {
+        background-color: var(--primary-purple);
+        border: 2px solid var(--primary-purple);
+        color: white;
+        padding: 0.625rem 1.5rem;
+        font-weight: 500;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-register:hover {
+        background-color: var(--primary-purple-hover);
+        border-color: var(--primary-purple-hover);
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(105, 52, 255, 0.2);
+    }
+
+    /* Profil Dropdown Güncellemeleri */
+    .profile-dropdown .dropdown-menu {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .profile-dropdown .dropdown-item:hover {
+        background-color: var(--light-purple);
+        color: var(--primary-purple);
+    }
+
+    .profile-dropdown .dropdown-item i {
+        color: var(--primary-purple);
+    }
+
+    /* Dil Seçici Güncellemeleri */
+    .language-switcher .dropdown-toggle {
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .language-switcher .dropdown-toggle:hover {
+        border-color: var(--primary-purple);
+        background-color: var(--light-purple);
+    }
+
+    .language-switcher .dropdown-menu {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .language-switcher .dropdown-item:hover {
+        background-color: var(--light-purple);
+    }
+
+    /* Çıkış Butonu */
+    .btn-danger {
+        background-color: #FF4B55;
+        border-color: #FF4B55;
+        transition: all 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #E6434D;
+        border-color: #E6434D;
+        transform: translateY(-1px);
+    }
+</style>
     @yield('styles')
 </head>
 <body class="bg-light">
