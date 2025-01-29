@@ -17,7 +17,7 @@ class Auth0Controller extends Controller
         $auth0 = app('auth0');
         
         return $auth0->getSdk()->login(
-            route('callback'), // callback URL
+            route('auth0.callback'),  // 'callback' yerine 'auth0.callback' kullanın
             null,    // organization
             null,    // invitation
             null,    // screen hint
