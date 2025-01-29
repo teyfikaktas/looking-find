@@ -14,27 +14,19 @@ class Auth0Controller extends Controller
     public function login()
     {
         $auth0 = app('auth0');
-
-        // Önerilen basit kullanım:
+    
         return $auth0->getSdk()->login(
-            scope: 'openid profile email'
+            null,       // $redirectUri
+            null,       // $organization
+            null,       // $invitation
+            null,       // $screenHint
+            null,       // $loginHint
+            [
+                'scope' => 'openid profile email',
+            ]
         );
-        
-        // Eğer getLoginLink() kullanacaksanız:
-        /*
-        return redirect(
-            $auth0->getSdk()->authentication()->getLoginLink(
-                Str::random(40),
-                // .env/config'den gelen URI
-                config('auth0.guards.web.redirect_uri'),
-                [
-                    'scope'         => 'openid profile email',
-                    'response_type' => 'code'
-                ]
-            )
-        );
-        */
     }
+    
 
     public function callback(Request $request)
     {
