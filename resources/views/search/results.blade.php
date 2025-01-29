@@ -61,58 +61,74 @@
         <div class="col-lg-9">
             <!-- Aktif Filtreler -->
             @if(request()->anyFilled(['position', 'city', 'working_preference', 'country', 'town']))
-                <div class="d-flex align-items-center mb-3 flex-wrap">
-                    <span class="me-2">Seçili Filtreler:</span>
-                    @if(request('position'))
-                        <span class="badge bg-light text-dark me-2 mb-2">
-                            {{ request('position') }}
-                            <a href="{{ route('search.results', array_merge(
-                                request()->except('position')->toArray(),
-                                ['page' => 1]
-                            )) }}" class="text-dark text-decoration-none ms-1">&times;</a>
-                        </span>
-                    @endif
-                    @if(request('city'))
-                        <span class="badge bg-light text-dark me-2 mb-2">
-                            {{ request('city') }}
-                            <a href="{{ route('search.results', array_merge(
-                                request()->except('city')->toArray(),
-                                ['page' => 1]
-                            )) }}" class="text-dark text-decoration-none ms-1">&times;</a>
-                        </span>
-                    @endif
-                    @if(request('country'))
-                        <span class="badge bg-light text-dark me-2 mb-2">
-                            {{ request('country') }}
-                            <a href="{{ route('search.results', array_merge(
-                                request()->except('country')->toArray(),
-                                ['page' => 1]
-                            )) }}" class="text-dark text-decoration-none ms-1">&times;</a>
-                        </span>
-                    @endif
-                    @if(request('working_preference'))
-                        @foreach((array)request('working_preference') as $pref)
-                            <span class="badge bg-light text-dark me-2 mb-2">
-                                @php
-                                    $prefLabels = [
-                                        'on-site' => 'İş Yerinde',
-                                        'remote' => 'Uzaktan',
-                                        'hybrid' => 'Hibrit'
-                                    ];
-                                @endphp
-                                {{ $prefLabels[$pref] ?? $pref }}
-                                <a href="{{ route('search.results', array_merge(
-                                    request()->except(['working_preference'])->toArray(),
-                                    ['working_preference' => array_diff((array)request('working_preference'), [$pref]),
-                                    'page' => 1]
-                                )) }}" class="text-dark text-decoration-none ms-1">&times;</a>
-                            </span>
-                        @endforeach
-                    @endif
-                    <a href="{{ route('search.results') }}" class="btn btn-sm btn-outline-secondary mb-2">Filtreleri Temizle</a>
-                </div>
-            @endif
+    <div class="d-flex align-items-center mb-3 flex-wrap">
+        <span class="me-2">Seçili Filtreler:</span>
+        
+        @if(request('position'))
+            <span class="badge bg-light text-dark me-2 mb-2">
+                {{ request('position') }}
+                <a href="{{ route('search.results', array_merge(
+                    request()->except('position'),
+                    ['page' => 1]
+                )) }}" class="text-dark text-decoration-none ms-1">&times;</a>
+            </span>
+        @endif
 
+        @if(request('city'))
+            <span class="badge bg-light text-dark me-2 mb-2">
+                {{ request('city') }}
+                <a href="{{ route('search.results', array_merge(
+                    request()->except('city'),
+                    ['page' => 1]
+                )) }}" class="text-dark text-decoration-none ms-1">&times;</a>
+            </span>
+        @endif
+
+        @if(request('country'))
+            <span class="badge bg-light text-dark me-2 mb-2">
+                {{ request('country') }}
+                <a href="{{ route('search.results', array_merge(
+                    request()->except('country'),
+                    ['page' => 1]
+                )) }}" class="text-dark text-decoration-none ms-1">&times;</a>
+            </span>
+        @endif
+
+        @if(request('town'))
+            <span class="badge bg-light text-dark me-2 mb-2">
+                {{ request('town') }}
+                <a href="{{ route('search.results', array_merge(
+                    request()->except('town'),
+                    ['page' => 1]
+                )) }}" class="text-dark text-decoration-none ms-1">&times;</a>
+            </span>
+        @endif
+
+        @if(request('working_preference'))
+            @foreach((array)request('working_preference') as $pref)
+                <span class="badge bg-light text-dark me-2 mb-2">
+                    @php
+                        $prefLabels = [
+                            'on-site' => 'İş Yerinde',
+                            'remote' => 'Uzaktan',
+                            'hybrid' => 'Hibrit'
+                        ];
+                    @endphp
+                    {{ $prefLabels[$pref] ?? $pref }}
+                    <a href="{{ route('search.results', array_merge(
+                        request()->except('working_preference'),
+                        [
+                            'working_preference' => array_values(array_diff((array)request('working_preference'), [$pref])),
+                            'page' => 1
+                        ]
+                    )) }}" class="text-dark text-decoration-none ms-1">&times;</a>
+                </span>
+            @endforeach
+        @endif
+
+        <a href="{{ route('search.results') }}" class="btn btn-sm btn-outline-secondary mb-2">Filtreleri Temizle</a>
+    </div>
+@endif
             <!-- Sonuçlar -->
             @forelse($jobs as $job)
                 <div class="card shadow-sm mb-3">
