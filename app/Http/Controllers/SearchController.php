@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class SearchController extends Controller
 {
@@ -11,13 +12,7 @@ class SearchController extends Controller
     {
         $query = Job::query();
 
-        // Çalışma tercihlerini array olarak al
-        $workingPreferences = $request->input('working_preference', []);
-        if (!is_array($workingPreferences)) {
-            $workingPreferences = [$workingPreferences];
-        }
-
-        // Position or company search
+        // Pozisyon veya şirket araması
         if ($request->filled('position')) {
             $query->where(function($q) use ($request) {
                 $q->where('position', 'like', '%' . $request->position . '%')
@@ -25,59 +20,40 @@ class SearchController extends Controller
             });
         }
 
-        // City search
+        // Şehir araması
         if ($request->filled('city')) {
-            $query->where('city', $request->city);
+            $query->where('city', 'like', '%' . $request->city . '%');
         }
 
-        // Country filter
-        if ($request->filled('country')) {
-            $query->where('country', $request->country);
-        }
-
-        // Town filter
+        // İlçe araması
         if ($request->filled('town')) {
-            $query->where('town', $request->town);
+            $query->where('town', 'like', '%' . $request->town . '%');
         }
 
-        // Working preference filter - Düzeltilmiş versiyonu
-        if (!empty($workingPreferences)) {
-            $query->whereIn('working_preference', $workingPreferences);
+        // Çalışma tercihi filtresi
+        if ($request->filled('working_preference')) {
+            $query->whereIn('working_preference', $request->working_preference);
         }
 
-        // Sort order
-        $sortOrder = $request->get('sort', 'newest');
-        if ($sortOrder === 'oldest') {
-            $query->orderBy('created_at', 'asc');
+        // Tarih filtresi
+        if ($request->filled('date_filter')) {
+            if ($request->date_filter === 'today') {
+                $query->whereDate('created_at', Carbon::today());
+            } elseif ($request->date_filter === 'yesterday') {
+                $query->whereDate('created_at', Carbon::yesterday());
+            }
+        }
+
+        // Sıralama
+        $sort = $request->get('sort', 'newest');
+        if ($sort === 'oldest') {
+            $query->oldest();
         } else {
-            $query->orderBy('created_at', 'desc');
+            $query->latest();
         }
 
-        // Pagination ve query string'i koru
         $jobs = $query->paginate(10)->withQueryString();
 
         return view('search.results', compact('jobs'));
-    }
-
-    public function getTowns($city)
-    {
-        $towns = Job::where('city', $city)
-                   ->distinct()
-                   ->pluck('town')
-                   ->filter()
-                   ->values();
-
-        return response()->json($towns);
-    }
-
-    public function getCities($country)
-    {
-        $cities = Job::where('country', $country)
-                    ->distinct()
-                    ->pluck('city')
-                    ->filter()
-                    ->values();
-
-        return response()->json($cities);
     }
 }
