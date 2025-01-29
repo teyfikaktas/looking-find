@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Auth0\Laravel\Facade\Auth0;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,21 +13,26 @@ class Auth0Controller extends Controller
 {
     public function login()
     {
-        return Auth0::withScope(['openid', 'profile', 'email'])
-            ->withAudience('https://github.com/auth0/laravel-auth0')
-            ->redirect();
+        $auth0 = app('auth0');
+        
+        return redirect(
+            $auth0->getSdk()->authentication()->getLoginLink(
+                callbackUrl: config('auth0.redirectUri'),
+                params: [
+                    'scope' => 'openid profile email',
+                ]
+            )
+        );
     }
 
     public function callback()
     {
-        // Credentials'ı al
-        $credentials = Auth0::getCredentials();
+        $auth0 = app('auth0');
+        $userInfo = $auth0->getUser();
 
-        if (!$credentials) {
+        if (!$userInfo) {
             return redirect()->route('login');
         }
-
-        $userInfo = $credentials->user();
 
         // Kullanıcıyı bul veya oluştur
         $user = User::updateOrCreate(
@@ -52,7 +56,7 @@ class Auth0Controller extends Controller
     {
         Auth::logout();
         
-        return Auth0::logout(
+        return app('auth0')->logout(
             returnTo: route('login')
         );
     }
