@@ -84,7 +84,14 @@
                     @if(request('working_preference'))
                         @foreach((array)request('working_preference') as $pref)
                             <span class="badge bg-light text-dark me-2 mb-2">
-                                {{ $pref }}
+                                @php
+                                $prefLabels = [
+                                    'is_yerinde' => 'İş Yerinde',
+                                    'uzaktan' => 'Uzaktan',
+                                    'hibrit' => 'Hibrit'
+                                ];
+                            @endphp
+                            {{ $prefLabels[$pref] ?? $pref }}
                                 <a href="#" class="text-dark text-decoration-none ms-1 remove-preference" data-preference="{{ $pref }}">&times;</a>
                             </span>
                         @endforeach
