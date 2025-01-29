@@ -13,6 +13,7 @@ return Configuration::VERSION_2 + [
 
     'guards' => [
         'default' => [
+            Configuration::CONFIG_COOKIE_SECRET => env('APP_KEY'),  // Bu satırı ekleyin
             Configuration::CONFIG_STRATEGY => SdkConfiguration::STRATEGY_REGULAR,  // STRATEGY_NONE yerine
             Configuration::CONFIG_DOMAIN => Configuration::get(Configuration::CONFIG_DOMAIN),
             Configuration::CONFIG_CUSTOM_DOMAIN => Configuration::get(Configuration::CONFIG_CUSTOM_DOMAIN),
