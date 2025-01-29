@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Auth0\Laravel\Facade\Auth0;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,41 +13,54 @@ class Auth0Controller extends Controller
 {
     public function login()
     {
-        return Auth0::login(redirect()->intended()->getTargetUrl());
+        $auth0 = app('auth0');
+        
+        return $auth0->getSdk()->authentication()->getLoginLink(
+            Str::random(40),
+            config('auth0.guards.web.redirect_uri'),
+            [
+                'scope' => 'openid profile email',
+                'response_type' => 'code'
+            ]
+        );
     }
 
-    public function callback()
+    public function callback(Request $request)
     {
-        Auth0::callback();
+        $auth0 = app('auth0');
+        $auth0->exchange();
+        
+        $userInfo = $auth0->getCredentials()->user;
 
-        $user = Auth0::user();
-
-        if (!$user) {
+        if (!$userInfo) {
             return redirect()->route('login');
         }
 
-        // Kullanıcıyı bul veya oluştur
-        $localUser = User::updateOrCreate(
-            ['email' => $user['email']],
+        $user = User::updateOrCreate(
+            ['email' => $userInfo['email']],
             [
-                'name' => $user['name'] ?? null,
-                'auth0_id' => $user['sub'],
+                'name' => $userInfo['name'] ?? null,
+                'auth0_id' => $userInfo['sub'],
                 'password' => Hash::make(Str::random(16)),
-                'photo' => $user['picture'] ?? null,
+                'photo' => $userInfo['picture'] ?? null,
                 'country' => null,
                 'city' => null
             ]
         );
 
-        Auth::login($localUser);
+        Auth::login($user);
 
-        return redirect()->intended('home');
+        return redirect()->route('home');
     }
 
     public function logout()
     {
         Auth::logout();
         
-        return Auth0::logout(route('login'));
+        return redirect(
+            app('auth0')->getSdk()->authentication()->getLogoutLink(
+                route('login')
+            )
+        );
     }
 }
