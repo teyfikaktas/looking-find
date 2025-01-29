@@ -67,6 +67,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('jobs.index');
+        return redirect()->route('home');
     }
 }
