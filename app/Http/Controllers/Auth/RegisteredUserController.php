@@ -22,12 +22,24 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'country' => ['required', 'string', 'max:255'],
-            'city' => ['required', 'string', 'max:255'],
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/^(?=.*[0-9])(?=.*[^A-Za-z0-9])/', // En az 1 sayı ve 1 özel karakter
+            ],
+            'name' => ['nullable', 'string', 'max:255'],
+            'country' => ['nullable', 'string', 'max:255'],
+            'city' => ['nullable', 'string', 'max:255'],
             'photo' => ['nullable', 'image', 'max:2048'], // 2MB max
+        ], [
+            'password.min' => 'Şifre en az 8 karakter olmalıdır.',
+            'password.regex' => 'Şifre en az 1 sayı ve 1 özel karakter içermelidir.',
+            'password.confirmed' => 'Şifre tekrarı eşleşmiyor.',
+            'email.unique' => 'Bu e-posta adresi zaten kullanımda.',
+            'photo.max' => 'Fotoğraf boyutu en fazla 2MB olabilir.',
         ]);
 
         // Fotoğraf işleme
@@ -36,10 +48,11 @@ class RegisteredUserController extends Controller
             $photoPath = $request->file('photo')->store('profile-photos', 'public');
         }
 
+        // User oluşturma
         $user = User::create([
-            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'name' => $request->name,
             'country' => $request->country,
             'city' => $request->city,
             'photo' => $photoPath,
