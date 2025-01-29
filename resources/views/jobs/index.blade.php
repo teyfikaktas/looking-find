@@ -5,48 +5,47 @@
     <div class="row align-items-center mt-5">
         <!-- Sol Taraf: Arama Kutusu + Popüler Aramalar -->
         <div class="col-md-8">
-            <h1 class="fw-bold">{{ __('Kariyer Fırsatlarını Keşfet') }}</h1>
-            <p class="fs-5"><strong>71.293</strong> {{ __('iş ilanı on binlerce şirket') }}</p>
+            <h1 class="fw-bold"><span data-translate="discover_opportunities">Kariyer Fırsatlarını Keşfet</span></h1>
+            <p class="fs-5"><strong>71.293</strong> <span data-translate="job_listings">iş ilanı on binlerce şirket</span></p>
 
             <!-- Arama Formu -->
-       <!-- resources/views/home.blade.php içindeki form kısmı -->
-<form method="GET" action="{{ route('search.results') }}" class="mb-4">
-    <div class="row">
-        <div class="col-md-5">
-            <input type="text" 
-                   name="position" 
-                   id="position-autocomplete" 
-                   class="form-control" 
-                   placeholder="{{ __('Pozisyon, Şirket') }}" 
-                   value="{{ request('position') }}">
-        </div>
-        <div class="col-md-5">
-            <input type="text" 
-                   name="city" 
-                   id="city-autocomplete" 
-                   class="form-control" 
-                   placeholder="{{ __('Şehir veya İlçe') }}" 
-                   value="{{ request('city') }}">
-        </div>
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary search-btn w-100">
-                <i class="fas fa-search"></i> {{ __('İş Bul') }}
-            </button>
-        </div>
-    </div>
-</form>
+            <form method="GET" action="{{ route('search.results') }}" class="mb-4">
+                <div class="row">
+                    <div class="col-md-5">
+                        <input type="text" 
+                               name="position" 
+                               id="position-autocomplete" 
+                               class="form-control" 
+                               data-translate-placeholder="search_position"
+                               value="{{ request('position') }}">
+                    </div>
+                    <div class="col-md-5">
+                        <input type="text" 
+                               name="city" 
+                               id="city-autocomplete" 
+                               class="form-control" 
+                               data-translate-placeholder="search_city"
+                               value="{{ request('city') }}">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary search-btn w-100">
+                            <i class="fas fa-search"></i> <span data-translate="find_job">İş Bul</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
 
             <!-- Popüler Aramalar -->
             <div class="d-flex flex-wrap">
-                <a href="#" class="btn btn-outline-secondary m-1">{{ __('Finans Uzmanı') }}</a>
-                <a href="#" class="btn btn-outline-secondary m-1">{{ __('Dijital Pazarlama Uzmanı') }}</a>
-                <a href="#" class="btn btn-outline-secondary m-1">{{ __('Yazılım Geliştirme Uzmanı') }}</a>
-                <a href="#" class="btn btn-outline-secondary m-1">{{ __('Proje Yöneticisi') }}</a>
-                <a href="#" class="btn btn-outline-secondary m-1">{{ __('İK Uzmanı') }}</a>
-                <a href="#" class="btn btn-outline-secondary m-1">{{ __('İstanbul') }}</a>
-                <a href="#" class="btn btn-outline-secondary m-1">{{ __('Ankara') }}</a>
-                <a href="#" class="btn btn-outline-secondary m-1">{{ __('İzmir') }}</a>
-                <a href="#" class="btn btn-outline-secondary m-1">{{ __('Bursa') }}</a>
+                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="finance_specialist">Finans Uzmanı</span></a>
+                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="digital_marketing">Dijital Pazarlama Uzmanı</span></a>
+                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="software_developer">Yazılım Geliştirme Uzmanı</span></a>
+                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="project_manager">Proje Yöneticisi</span></a>
+                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="hr_specialist">İK Uzmanı</span></a>
+                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="istanbul">İstanbul</span></a>
+                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="ankara">Ankara</span></a>
+                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="izmir">İzmir</span></a>
+                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="bursa">Bursa</span></a>
             </div>
         </div>
 
@@ -58,7 +57,7 @@
 
     <!-- Öne Çıkan İlanlar -->
     <div class="mt-5">
-        <h2 class="fw-bold mb-4">{{ __('Öne Çıkan İlanlar') }}</h2>
+        <h2 class="fw-bold mb-4"><span data-translate="featured_jobs">Öne Çıkan İlanlar</span></h2>
         
         <div class="featured-jobs-slider">
             <div class="slider-container">
@@ -76,13 +75,15 @@
                                             <h5 class="card-title mb-3">{{ $job->position }}</h5>
                                             <p class="card-text fw-bold mb-2">{{ $job->company }}</p>
                                             <p class="text-muted mb-3">{{ $job->city }} @if($job->town), {{ $job->town }} @endif</p>
-                                            <a href="{{ route('jobs.show', $job->id) }}" class="btn btn-outline-primary mt-auto">{{ __('Detayları Gör') }}</a>
+                                            <a href="{{ route('jobs.show', $job->id) }}" class="btn btn-outline-primary mt-auto">
+                                                <span data-translate="view_details">Detayları Gör</span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
                         @else
-                            <p>{{ __('No job postings available.') }}</p>
+                            <p><span data-translate="no_jobs">İş ilanı bulunmamaktadır.</span></p>
                         @endif
                     </div>
                 </div>

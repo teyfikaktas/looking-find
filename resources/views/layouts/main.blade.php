@@ -245,13 +245,71 @@
                 'delete_account_text': 'Hesabınız silindiğinde, tüm kaynakları ve verileri kalıcı olarak silinecektir.',
                 'delete_account_button': 'Hesabı Sil',
                 
+                // Ana Sayfa
+                'discover_opportunities': 'Kariyer Fırsatlarını Keşfet',
+                'job_listings': 'iş ilanı on binlerce şirket',
+                'search_position': 'Pozisyon, Şirket',
+                'search_city': 'Şehir veya İlçe',
+                'find_job': 'İş Bul',
+                
+                // Popüler Aramalar
+                'finance_specialist': 'Finans Uzmanı',
+                'digital_marketing': 'Dijital Pazarlama Uzmanı',
+                'software_developer': 'Yazılım Geliştirme Uzmanı',
+                'project_manager': 'Proje Yöneticisi',
+                'hr_specialist': 'İK Uzmanı',
+                
+                // Şehirler
+                'istanbul': 'İstanbul',
+                'ankara': 'Ankara',
+                'izmir': 'İzmir',
+                'bursa': 'Bursa',
+                
+                // İş İlanları
+                'featured_jobs': 'Öne Çıkan İlanlar',
+                'view_details': 'Detayları Gör',
+                'no_jobs': 'İş ilanı bulunmamaktadır.',
+                
+                // Autocomplete
+                'search_positions': 'Pozisyonlarda ara...',
+                
                 // Validation ve Uyarılar
                 'required_field': 'Bu alan zorunludur',
                 'min_characters': 'En az {min} karakter olmalıdır',
                 'email_invalid': 'Geçerli bir e-posta adresi giriniz',
                 'password_not_match': 'Şifreler eşleşmiyor',
                 'success_message': 'Başarıyla güncellendi',
-                'error_message': 'Bir hata oluştu'
+                'error_message': 'Bir hata oluştu',
+
+                // Genel Kullanım
+                'welcome': 'Hoş Geldiniz',
+                'search': 'Ara',
+                'notifications': 'Bildirimler',
+                'settings': 'Ayarlar',
+                'help': 'Yardım',
+                'about': 'Hakkında',
+                'contact': 'İletişim',
+                'terms': 'Kullanım Şartları',
+                'privacy': 'Gizlilik Politikası',
+
+                // Form ve Butonlar
+                'submit': 'Gönder',
+                'cancel': 'İptal',
+                'edit': 'Düzenle',
+                'delete': 'Sil',
+                'view': 'Görüntüle',
+                'download': 'İndir',
+                'upload': 'Yükle',
+                'close': 'Kapat',
+                'back': 'Geri',
+                'next': 'İleri',
+
+                // Tarih ve Zaman
+                'date': 'Tarih',
+                'time': 'Saat',
+                'today': 'Bugün',
+                'yesterday': 'Dün',
+                'tomorrow': 'Yarın'
             },
             'en': {
                 // Navbar and Profile Dropdown
@@ -287,13 +345,71 @@
                 'delete_account_text': 'Once your account is deleted, all of its resources and data will be permanently deleted.',
                 'delete_account_button': 'Delete Account',
                 
+                // Home Page
+                'discover_opportunities': 'Discover Career Opportunities',
+                'job_listings': 'job listings from thousands of companies',
+                'search_position': 'Position, Company',
+                'search_city': 'City or District',
+                'find_job': 'Find Job',
+                
+                // Popular Searches
+                'finance_specialist': 'Finance Specialist',
+                'digital_marketing': 'Digital Marketing Specialist',
+                'software_developer': 'Software Developer',
+                'project_manager': 'Project Manager',
+                'hr_specialist': 'HR Specialist',
+                
+                // Cities
+                'istanbul': 'Istanbul',
+                'ankara': 'Ankara',
+                'izmir': 'Izmir',
+                'bursa': 'Bursa',
+                
+                // Job Listings
+                'featured_jobs': 'Featured Jobs',
+                'view_details': 'View Details',
+                'no_jobs': 'No job postings available.',
+                
+                // Autocomplete
+                'search_positions': 'Search positions...',
+                
                 // Validation and Alerts
                 'required_field': 'This field is required',
                 'min_characters': 'Must be at least {min} characters',
                 'email_invalid': 'Please enter a valid email address',
                 'password_not_match': 'Passwords do not match',
                 'success_message': 'Successfully updated',
-                'error_message': 'An error occurred'
+                'error_message': 'An error occurred',
+
+                // General Usage
+                'welcome': 'Welcome',
+                'search': 'Search',
+                'notifications': 'Notifications',
+                'settings': 'Settings',
+                'help': 'Help',
+                'about': 'About',
+                'contact': 'Contact',
+                'terms': 'Terms of Service',
+                'privacy': 'Privacy Policy',
+
+                // Forms and Buttons
+                'submit': 'Submit',
+                'cancel': 'Cancel',
+                'edit': 'Edit',
+                'delete': 'Delete',
+                'view': 'View',
+                'download': 'Download',
+                'upload': 'Upload',
+                'close': 'Close',
+                'back': 'Back',
+                'next': 'Next',
+
+                // Date and Time
+                'date': 'Date',
+                'time': 'Time',
+                'today': 'Today',
+                'yesterday': 'Yesterday',
+                'tomorrow': 'Tomorrow'
             }
         };
 
@@ -325,8 +441,8 @@
                 }
             });
             
-// Seçili dili güncelle
-document.getElementById('selectedLang').textContent = lang.toUpperCase();
+            // Seçili dili güncelle
+            document.getElementById('selectedLang').textContent = lang.toUpperCase();
             document.getElementById('selectedFlag').src = `https://flagcdn.com/w20/${lang === 'en' ? 'gb' : 'tr'}.png`;
             
             // Dili localStorage'a kaydet
