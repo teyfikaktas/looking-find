@@ -7,6 +7,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\LanguageController;
+use Illuminate\Support\Facades\Cookie;
 
 // Ana Sayfa - İş İlanlarını Listele
 Route::get('/', [JobController::class, 'index'])->name('home');
@@ -24,9 +25,9 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/lang/{lang}', function($lang) {
     if (in_array($lang, ['en', 'tr'])) {
-        Cookie::queue('locale', $lang, 60*24*365, null, null, false, false); // Son iki parametre: secure ve httpOnly false
+        $cookie = cookie()->forever('app_locale', $lang);
         app()->setLocale($lang);
-        return redirect()->back();
+        return redirect()->back()->cookie($cookie);
     }
 })->name('language.switch');
 // Pozisyonlar için autocomplete API rotası

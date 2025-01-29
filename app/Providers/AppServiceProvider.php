@@ -11,9 +11,9 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        if (Cookie::has('locale')) {
-            app()->setLocale(Cookie::get('locale'));
+        $locale = request()->cookie('app_locale');
+        if ($locale && in_array($locale, ['en', 'tr'])) {
+            app()->setLocale($locale);
         }
     }
-    
 }
