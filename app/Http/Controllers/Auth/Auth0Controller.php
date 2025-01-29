@@ -9,16 +9,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\User;
 use Auth0\Laravel\Facade\Auth0;
-use Auth0\Laravel\Contract\Auth0Contract;
+
 class Auth0Controller extends Controller
 {
-    protected $auth0;
-
-    public function __construct(Auth0Contract $auth0)
-    {
-        $this->auth0 = $auth0;
-    }
-
     public function login()
     {
         return Auth0::withGuard('web')->login(route('callback'));
@@ -27,10 +20,10 @@ class Auth0Controller extends Controller
     public function callback(Request $request)
     {
         // Auth0 exchange işlemi
-        $this->auth0->exchange();
+        Auth0::exchange();
         
         // Kullanıcı bilgilerini al
-        $userInfo = $this->auth0->getUser();
+        $userInfo = Auth0::getUser();
 
         if (!$userInfo) {
             return redirect()->route('login')->with('error', 'Authentication failed');
@@ -54,12 +47,9 @@ class Auth0Controller extends Controller
             // Kullanıcıyı giriş yaptır
             Auth::login($user);
 
-            // Session'a başarı mesajı ekle
-            session()->flash('success', 'Successfully logged in!');
-
             return redirect()->intended(route('home'));
         } catch (\Exception $e) {
-            report($e); // Hatayı logla
+            report($e);
             return redirect()->route('login')->with('error', 'An error occurred during authentication');
         }
     }
@@ -68,13 +58,11 @@ class Auth0Controller extends Controller
     {
         Auth::logout();
         
-        $returnTo = route('login');
-        
         return redirect(
-            $this->auth0->getSdk()
+            Auth0::getSdk()
                 ->authentication()
                 ->getLogoutLink(
-                    $returnTo,
+                    route('login'),
                     ['client_id' => config('auth0.client_id')]
                 )
         );
