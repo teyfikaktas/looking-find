@@ -16,7 +16,7 @@ Route::get('/', [JobController::class, 'index'])->name('home');
 // Dashboard Rotası
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+});
 
 // Profile Rotaları
 Route::middleware('auth')->group(function () {
