@@ -24,6 +24,8 @@ class Job extends Model
         'city',
         'town',
         'working_preference',
+        'image',  // Bunu ekleyelim
+
         // Diğer gerekli kolonlar
     ];
 
