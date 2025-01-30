@@ -57,7 +57,7 @@
                     </div>
                 </div>
 
-                <a href="/login/auth0" class="mt-4 w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <a href="" class="mt-4 w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                     <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 0C5.383 0 0 5.383 0 12C0 18.617 5.383 24 12 24C18.617 24 24 18.617 24 12C24 5.383 18.617 0 12 0ZM12 4.8C14.727 4.8 17.1 6.284 18.507 8.487C17.1 10.69 14.727 12.174 12 12.174C9.273 12.174 6.9 10.69 5.493 8.487C6.9 6.284 9.273 4.8 12 4.8ZM12 19.2C8.56 19.2 5.493 17.127 4.02 14.113C6.9 12.567 9.273 11.826 12 11.826C14.727 11.826 17.1 12.567 19.98 14.113C18.507 17.127 15.44 19.2 12 19.2Z" fill="currentColor"/>
                     </svg>
