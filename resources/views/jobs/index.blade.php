@@ -163,12 +163,6 @@
         transition: transform 0.3s ease-in-out;
     }
 
-    .job-card {
-        flex: 0 0 25%;
-        padding: 0 10px;
-        box-sizing: border-box;
-        cursor: pointer;
-    }
 
     .job-card .card {
         border: 1px solid #E2E8F0;
@@ -189,8 +183,15 @@
     object-fit: contain !important;
     max-height: 160px !important;
     width: 100% !important;
+    flex-shrink: 0; /* Resmin sıkışmasını önler */
 }
 
+.card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
     .job-card .card-body {
         padding: 1.5rem;
     }
@@ -201,7 +202,13 @@
         margin-bottom: 0.5rem;
         font-weight: 600;
     }
-
+    .card-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
     .job-card .company-name {
         color: #374151;
         font-weight: 600;
@@ -212,7 +219,12 @@
         color: #6B7280;
         font-size: 0.9rem;
     }
-
+    .company-name, .location {
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
     /* Slider Navigasyon Butonları */
     .slider-nav {
         background: white;
@@ -252,7 +264,22 @@
         border-color: var(--primary-purple);
         box-shadow: 0 0 0 3px rgba(105, 52, 255, 0.1);
     }
-
+    .job-card .card {
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.job-card {
+    flex: 0 0 25%;
+    padding: 0 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+    height: 350px; /* Sabit yükseklik */
+}
     /* Responsive ayarlamalar */
     @media (max-width: 992px) {
         .job-card {
