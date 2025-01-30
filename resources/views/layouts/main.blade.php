@@ -169,11 +169,11 @@
                     <div class="dropdown profile-dropdown">
                         <button class="btn btn-link dropdown-toggle p-0" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="d-flex align-items-center">
-                                @if(Auth::user()->photo)
-                                    <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Profil" class="profile-image">
-                                @else
-                                    <img src="{{ asset('images/default-avatar.png') }}" alt="Profil" class="profile-image">
-                                @endif
+                            @if(Auth::user()->photo)
+    <img src="{{ Storage::disk('public')->url(Auth::user()->photo) }}" alt="Profil" class="profile-image">
+@else
+    <img src="{{ asset('images/default-avatar.png') }}" alt="Profil" class="profile-image">
+@endif
                                 <span class="ms-2 d-none d-lg-inline user-name">{{ Auth::user()->name }}</span>
                             </div>
                         </button>
