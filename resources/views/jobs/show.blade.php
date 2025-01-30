@@ -98,8 +98,9 @@
                 <div class="card-body">
                     @foreach($relatedJobs as $relatedJob)
                         <div class="d-flex align-items-center mb-3 pb-3 {{ !$loop->last ? 'border-bottom' : '' }}">
-                            <img src="https://via.placeholder.com/48" alt="{{ $relatedJob->company }}" 
-                                 class="rounded me-3" style="width: 48px; height: 48px; object-fit: cover;">
+                        <div class="img-wrapper">
+                                            <img src="{{ $job->images ?? $job->randomImage() }}" class="job-img" alt="{{ $job->company }}">
+                                        </div>                                 class="rounded me-3" style="width: 48px; height: 48px; object-fit: cover;">
                             <div class="flex-grow-1">
                                 <h6 class="mb-1">{{ $relatedJob->position }}</h6>
                                 <div class="small text-muted">{{ $relatedJob->company }}</div>
