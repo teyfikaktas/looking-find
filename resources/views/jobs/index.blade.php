@@ -70,14 +70,11 @@
                             @foreach($jobs as $job)
                                 <div class="job-card" onclick="window.location.href='{{ route('jobs.show', $job->id) }}'">
                                     <div class="card h-100">
-                                    <div style="height: 200px; width: 100%; overflow: hidden;">
-    <img 
-        src="https://www.uted.org/assets/images/slider/__Page_e4838d74-3ce7-4103-ba42-446d71e4c1f2686.png"
-        class="card-img-top job-img"
-        style="height: 100%; width: 100%; object-fit: contain;"
-        alt="Koç Holding"
-    >
-</div>                                    <h5 class="card-title">{{ $job->position }}</h5>
+                                    <img 
+    src="{{ $job->images ?? $job->randomImage() }}" 
+    class="card-img-top job-img" 
+    alt="{{ $job->company }}"
+>                                    <h5 class="card-title">{{ $job->position }}</h5>
                                             <p class="company-name mb-2">{{ $job->company }}</p>
                                             <p class="location mb-0">{{ $job->city }} @if($job->town), {{ $job->town }} @endif</p>
                                         </div>
@@ -188,9 +185,11 @@
     }
 
     .job-img {
-        height: 160px;
-        object-fit: cover;
-    }
+    height: 160px !important;
+    object-fit: contain !important;
+    max-height: 160px !important;
+    width: 100% !important;
+}
 
     .job-card .card-body {
         padding: 1.5rem;
