@@ -70,8 +70,9 @@
                             @foreach($jobs as $job)
                                 <div class="job-card" onclick="window.location.href='{{ route('jobs.show', $job->id) }}'">
                                     <div class="card h-100">
-                                    <img src="{{ $job->image }}" class="card-img-top job-img" alt="{{ $job->company }}">                                        <div class="card-body text-center d-flex flex-column">
-                                            <h5 class="card-title">{{ $job->position }}</h5>
+                                    <img src="{{ $job->images ?? $job->randomImage() }}" class="card-img-top job-img" alt="{{ $job->company }}">
+
+<h5 class="card-title">{{ $job->position }}</h5>
                                             <p class="company-name mb-2">{{ $job->company }}</p>
                                             <p class="location mb-0">{{ $job->city }} @if($job->town), {{ $job->town }} @endif</p>
                                         </div>
