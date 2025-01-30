@@ -37,7 +37,7 @@
 
             <!-- Popüler Aramalar -->
             <div class="d-flex flex-wrap">
-            <a href="{{ route('search.results', ['position' => 'Finans Uzmanı']) }}" class="btn btn-outline-secondary m-1"><span data-translate="finance_specialist">Finans Uzmanı</span></a>
+                <a href="{{ route('search.results', ['position' => 'Finans Uzmanı']) }}" class="btn btn-outline-secondary m-1"><span data-translate="finance_specialist">Finans Uzmanı</span></a>
                 <a href="{{ route('search.results', ['position' => 'Dijital Pazarlama Uzmanı']) }}" class="btn btn-outline-secondary m-1"><span data-translate="digital_marketing">Dijital Pazarlama Uzmanı</span></a>
                 <a href="{{ route('search.results', ['position' => 'Yazılım Geliştirme Uzmanı']) }}" class="btn btn-outline-secondary m-1"><span data-translate="software_developer">Yazılım Geliştirme Uzmanı</span></a>
                 <a href="{{ route('search.results', ['position' => 'Proje Yöneticisi']) }}" class="btn btn-outline-secondary m-1"><span data-translate="project_manager">Proje Yöneticisi</span></a>
@@ -69,14 +69,14 @@
                         @if($jobs->count())
                             @foreach($jobs as $job)
                                 <div class="job-card" onclick="window.location.href='{{ route('jobs.show', $job->id) }}'">
-                                    <div class="card h-100">
-                                    <img 
-    src="{{ $job->images ?? $job->randomImage() }}" 
-    class="card-img-top job-img" 
-    alt="{{ $job->company }}"
->                                    <h5 class="card-title">{{ $job->position }}</h5>
-                                            <p class="company-name mb-2">{{ $job->company }}</p>
-                                            <p class="location mb-0">{{ $job->city }} @if($job->town), {{ $job->town }} @endif</p>
+                                    <div class="card">
+                                        <div class="img-wrapper">
+                                            <img src="{{ $job->images ?? $job->randomImage() }}" class="job-img" alt="{{ $job->company }}">
+                                        </div>
+                                        <div class="card-content">
+                                            <h5 class="title">{{ $job->position }}</h5>
+                                            <p class="company">{{ $job->company }}</p>
+                                            <p class="location">{{ $job->city }} @if($job->town), {{ $job->town }} @endif</p>
                                         </div>
                                     </div>
                                 </div>
@@ -141,7 +141,7 @@
         color: var(--primary-purple);
     }
 
-    /* İş Kartları */
+    /* İş Kartları Slider */
     .featured-jobs-slider {
         position: relative;
         margin: 20px 0;
@@ -163,13 +163,21 @@
         transition: transform 0.3s ease-in-out;
     }
 
+    /* İş Kartları */
+    .job-card {
+        flex: 0 0 25%;
+        padding: 10px;
+    }
 
     .job-card .card {
         border: 1px solid #E2E8F0;
         border-radius: 12px;
-        overflow: hidden;
+        height: 300px;
+        background: white;
+        display: flex;
+        flex-direction: column;
         transition: all 0.3s ease;
-        height: 100%;
+        cursor: pointer;
     }
 
     .job-card .card:hover {
@@ -178,53 +186,53 @@
         border-color: var(--primary-purple);
     }
 
+    .img-wrapper {
+        height: 160px;
+        width: 100%;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .job-img {
-    height: 160px !important;
-    object-fit: contain !important;
-    max-height: 160px !important;
-    width: 100% !important;
-    flex-shrink: 0; /* Resmin sıkışmasını önler */
-}
-
-.card-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-}
-    .job-card .card-body {
-        padding: 1.5rem;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
     }
 
-    .job-card .card-title {
+    .card-content {
+        padding: 15px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .title, .company, .location {
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .title {
+        font-size: 16px;
+        font-weight: 600;
         color: var(--primary-purple);
-        font-size: 1.1rem;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-    }
-    .card-title {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-    .job-card .company-name {
-        color: #374151;
-        font-weight: 600;
-        font-size: 0.95rem;
     }
 
-    .job-card .location {
-        color: #6B7280;
-        font-size: 0.9rem;
+    .company {
+        font-size: 14px;
+        font-weight: 500;
+        color: #374151;
     }
-    .company-name, .location {
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+
+    .location {
+        font-size: 14px;
+        color: #6B7280;
+    }
+
     /* Slider Navigasyon Butonları */
     .slider-nav {
         background: white;
@@ -264,22 +272,7 @@
         border-color: var(--primary-purple);
         box-shadow: 0 0 0 3px rgba(105, 52, 255, 0.1);
     }
-    .job-card .card {
-    border: 1px solid #E2E8F0;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-.job-card {
-    flex: 0 0 25%;
-    padding: 0 10px;
-    box-sizing: border-box;
-    cursor: pointer;
-    height: 350px; /* Sabit yükseklik */
-}
+
     /* Responsive ayarlamalar */
     @media (max-width: 992px) {
         .job-card {
