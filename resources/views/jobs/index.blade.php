@@ -37,15 +37,15 @@
 
             <!-- Popüler Aramalar -->
             <div class="d-flex flex-wrap">
-                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="finance_specialist">Finans Uzmanı</span></a>
-                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="digital_marketing">Dijital Pazarlama Uzmanı</span></a>
-                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="software_developer">Yazılım Geliştirme Uzmanı</span></a>
-                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="project_manager">Proje Yöneticisi</span></a>
-                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="hr_specialist">İK Uzmanı</span></a>
-                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="istanbul">İstanbul</span></a>
-                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="ankara">Ankara</span></a>
-                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="izmir">İzmir</span></a>
-                <a href="#" class="btn btn-outline-secondary m-1"><span data-translate="bursa">Bursa</span></a>
+            <a href="{{ route('search.results', ['position' => 'Finans Uzmanı']) }}" class="btn btn-outline-secondary m-1"><span data-translate="finance_specialist">Finans Uzmanı</span></a>
+                <a href="{{ route('search.results', ['position' => 'Dijital Pazarlama Uzmanı']) }}" class="btn btn-outline-secondary m-1"><span data-translate="digital_marketing">Dijital Pazarlama Uzmanı</span></a>
+                <a href="{{ route('search.results', ['position' => 'Yazılım Geliştirme Uzmanı']) }}" class="btn btn-outline-secondary m-1"><span data-translate="software_developer">Yazılım Geliştirme Uzmanı</span></a>
+                <a href="{{ route('search.results', ['position' => 'Proje Yöneticisi']) }}" class="btn btn-outline-secondary m-1"><span data-translate="project_manager">Proje Yöneticisi</span></a>
+                <a href="{{ route('search.results', ['position' => 'İK Uzmanı']) }}" class="btn btn-outline-secondary m-1"><span data-translate="hr_specialist">İK Uzmanı</span></a>
+                <a href="{{ route('search.results', ['city' => 'İstanbul']) }}" class="btn btn-outline-secondary m-1"><span data-translate="istanbul">İstanbul</span></a>
+                <a href="{{ route('search.results', ['city' => 'Ankara']) }}" class="btn btn-outline-secondary m-1"><span data-translate="ankara">Ankara</span></a>
+                <a href="{{ route('search.results', ['city' => 'İzmir']) }}" class="btn btn-outline-secondary m-1"><span data-translate="izmir">İzmir</span></a>
+                <a href="{{ route('search.results', ['city' => 'Bursa']) }}" class="btn btn-outline-secondary m-1"><span data-translate="bursa">Bursa</span></a>
             </div>
         </div>
 
