@@ -1,4 +1,3 @@
-<!-- resources/views/jobs/show.blade.php -->
 @extends('layouts.main')
 
 @section('content')
@@ -97,11 +96,13 @@
                 </div>
                 <div class="card-body">
                     @foreach($relatedJobs as $relatedJob)
-                        <div class="d-flex align-items-center mb-3 pb-3 {{ !$loop->last ? 'border-bottom' : '' }}">
-                        <div class="img-wrapper">
-                                            <img src="{{ $job->images ?? $job->randomImage() }}" class="job-img" alt="{{ $job->company }}">
-                                        </div>                                 class="rounded me-3" style="width: 48px; height: 48px; object-fit: cover;">
-                            <div class="flex-grow-1">
+                        <div class="related-job-card {{ !$loop->last ? 'border-bottom' : '' }}">
+                            <div class="related-job-img-wrapper">
+                                <img src="{{ $relatedJob->images ?? $relatedJob->randomImage() }}" 
+                                     class="related-job-img" 
+                                     alt="{{ $relatedJob->company }}">
+                            </div>
+                            <div class="related-job-content">
                                 <h6 class="mb-1">{{ $relatedJob->position }}</h6>
                                 <div class="small text-muted">{{ $relatedJob->company }}</div>
                                 <div class="small text-muted">
@@ -123,6 +124,7 @@
 
 @section('styles')
 <style>
+/* Buton Stilleri */
 .btn-purple {
     background-color: #8A2BE2;
     border-color: #8A2BE2;
@@ -147,6 +149,52 @@
 
 .text-purple {
     color: #8A2BE2 !important;
+}
+
+/* İlgili İlanlar Kartı */
+.related-job-card {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    gap: 15px;
+}
+
+.related-job-img-wrapper {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.related-job-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.related-job-content {
+    flex-grow: 1;
+    min-width: 0; /* Taşma kontrolü için */
+}
+
+.related-job-content h6 {
+    margin: 0 0 5px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Responsive için ek ayarlar */
+@media (max-width: 768px) {
+    .related-job-img-wrapper {
+        width: 48px;
+        height: 48px;
+    }
 }
 </style>
 @endsection
